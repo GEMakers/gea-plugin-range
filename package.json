@@ -1,0 +1,13 @@
+{
+    "name" : "gea-plugin-range",
+    "description" : "Range plugin for General Electric Appliance SDK",
+    "homepage" : "http://www.ge.com/",
+    "keywords" : [ "GE", "GEA", "SDK", "General Electric", "range" ],
+    "author" : "Christopher Baker <christopher.baker2@ge.com>",
+    "repository" : {
+        "type": "git", "url": "https://github.com/GEMakers/gea-plugin-range.git"
+    },
+    "main" : "src/main.js",
+    "version" : "0.0.0"
+}
+
