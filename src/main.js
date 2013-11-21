@@ -10,6 +10,14 @@ const ERD_LAST_KEY_PRESSED = 0x5006;
 const ERD_UPPER_COOK_MODE = 0x5100;
 
 function Range(appliance) {
+    appliance.subscribe(ERD_REMOTE_ENABLE, function (data) {
+        appliance.emit("remoteEnable", data[0]);
+    });
+    
+    appliance.subscribe(ERD_LAST_KEY_PRESSED, function (data) {
+        appliance.emit("keyPress", data[0]);
+    });
+    
     return appliance;
 }
 
