@@ -277,65 +277,147 @@ app.bind(adapter, function (bus) {
 
 ```
 
+### *range.upperOven.currentState*
+The upper oven has a cook mode object.
+There are ten fields in this object, some of which are optional when writing:
+- mode (the cook mode, see [cook modes](https://github.com/GEMakers/gea-plugin-range#cook-modes) below)
+- cookTemperature (the cook temperature in F)
+- cookHours (the hour part of the cook time)
+- cookMinutes (the minute part of the cook time)
+- probeTemperature (the probe temperature in F, default: 0)
+- delayHours (the hour part of the delay time, default: 0)
+- delayMinutes (the minute part of the delay time, default: 0)
+- twoTempTemperature (the two temp temperature in F, default: 0)
+- twoTempHours (the hour part of the two temp time, default: 0)
+- twoTempMinutes (the minute part of the two temp time, default: 0)
+
+``` javascript
+app.bind(adapter, function (bus) {
+    bus.on("range", function (range) {
+        range.upperOven.cookMode.read(function (value) {
+            console.log("read:", value);
+        });
+        
+        range.upperOven.cookMode.subscribe(function (value) {
+            console.log("subscribe:", value);
+        });
+        
+        range.upperOven.cookMode.write({
+            mode: 18,
+            cookTemperature: 350,
+            cookHours: 1,
+            cookMinutes: 0
+        });
+    });
+});
+
+```
+
 ## Appendix
 
 ### Cook modes
 The following is a list of the available cook modes and their enumerated value.
 Note that some of these values are not allowed to be set remotely, even when remote enabled.
+Some of these values are deprecated, and are marked with a ~~strikeout~~.
 
-- No Mode - 0
-- Bake No Option - 1
-- Bake Probe - 2
-- Bake Delay Start - 3
-- Bake Timed Warm - 4
-- Bake Timed Two Temp - 5
-- Bake Probe Delay Start - 6
-- Bake Timed Shutoff Delay Start - 7
-- Bake Timed Warm Delay Start - 8
-- Bake Timed TwoTemp Delay Start - 9
-- Bake Sabbath - 10
-- Broil Low - 11
-- Broil High - 12
-- Proof No Option - 13
-- Proof Delay Start - 14
-- Warm No Option - 15
-- Warm Probe - 16
-- Warm Delay Start - 17
-- Convection Bake No Option - 18
-- Convection Bake Probe - 19
-- Convection Bake Delay Start - 20
-- Convection Bake Timed Warm - 21
-- Convection Bake Timed TwoTemp - 22
-- Convection Bake Probe Delay Start - 23
-- Convection Bake Timed Shutoff Delay Start - 24
-- Convection Bake Timed Warm Delay Start - 25
-- Convection Bake Timed TwoTemp Delay Start - 26
-- Convection Multi-Bake No Option - 27
-- Convection Multi-Bake Probe - 28
-- Convection Multi-Bake Delay Start - 29
-- Convection Multi-Bake Timed Warm - 30
-- Convection Multi-Bake Timed TwoTemp - 31
-- Convection Multi-Bake Probe Delay Start - 32
-- Convection Multi-Bake Timed Shutoff Delay Start - 33
-- Convection Multi-Bake Timed Warm Delay Start - 34
-- Convection Multi-Bake Timed TwoTemp Delay Start - 35
-- Convection Roast No Option - 36
-- Convection Roast Probe - 37
-- Convection Roast Delay Start - 38
-- Convection Roast Timed Warm - 39
-- Convection Roast Timed TwoTemp - 40
-- Convection Roast Probe Delay Start - 41
-- Convection Roast Timed Shutoff Delay Start - 42
-- Convection Roast Timed Warm Delay Start - 43
-- Convection Roast Timed TwoTemp Delay Start - 44
-- Convection Broil Low No Option - 45
-- Convection Broil High No Option - 46
-- Convection Broil Crisp No Option - 47
-- Convection Broil Crisp Probe - 48
-- Custom Self Clean - 49
-- Custom Self Clean Delay Start - 50
-- Steam Clean - 51
-- Steam Clean Delay Start - 52
-- Dual Broil Low No Option - 53
-- Dual Broil High No Option - 54
+| Value   | Name                                                |
+|:-------:|:----------------------------------------------------|
+| 0       | No Mode                                             |
+| 1       | Bake No Option                                      |
+| 2       | Bake Probe                                          |
+| 3       | Bake Delay Start                                    |
+| 4       | Bake Timed Warm                                     |
+| 5       | Bake Timed Two-Temp                                 |
+| 6       | Bake Probe Delay Start                              |
+| 7       | ~~Bake Timed Shutoff Delay Start~~                  |
+| 8       | Bake Timed Warm Delay Start                         |
+| 9       | Bake Timed TwoTemp Delay Start                      |
+| 10      | ~~Bake Sabbath~~                                    |
+| 11      | Broil Low                                           |
+| 12      | Broil High                                          |
+| 13      | Proof No Option                                     |
+| 14      | Proof Delay Start                                   |
+| 15      | Warm No Option                                      |
+| 16      | Warm Probe                                          |
+| 17      | Warm Delay Start                                    |
+| 18      | Convection Bake No Option                           |
+| 19      | Convection Bake Probe                               |
+| 20      | Convection Bake Delay Start                         |
+| 21      | Convection Bake Timed Warm                          |
+| 22      | Convection Bake Timed Two-Temp                      |
+| 23      | Convection Bake Probe Delay Start                   |
+| 24      | ~~Convection Bake Timed Shutoff Delay Start~~       |
+| 25      | Convection Bake Timed Warm Delay Start              |
+| 26      | Convection Bake Timed TwoTemp Delay Start           |
+| 27      | Convection Multi-Bake No Option                     |
+| 28      | Convection Multi-Bake Probe                         |
+| 29      | Convection Multi-Bake Delay Start                   |
+| 30      | Convection Multi-Bake Timed Warm                    |
+| 31      | Convection Multi-Bake Timed Two-Temp                |
+| 32      | Convection Multi-Bake Probe Delay Start             |
+| 33      | ~~Convection Multi-Bake Timed Shutoff Delay Start~~ |
+| 34      | Convection Multi-Bake Timed Warm Delay Start        |
+| 35      | Convection Multi-Bake Timed Two-Temp Delay Start    |
+| 36      | Convection Roast No Option                          |
+| 37      | Convection Roast Probe                              |
+| 38      | Convection Roast Delay Start                        |
+| 39      | Convection Roast Timed Warm                         |
+| 40      | Convection Roast Timed Two-Temp                     |
+| 41      | Convection Roast Probe Delay Start                  |
+| 42      | ~~Convection Roast Timed Shutoff Delay Start~~      |
+| 43      | Convection Roast Timed Warm Delay Start             |
+| 44      | Convection Roast Timed TwoTemp Delay Start          |
+| 45      | Convection Broil Low No Option                      |
+| 46      | Convection Broil High No Option                     |
+| 47      | Convection Broil Crisp No Option                    |
+| 48      | Convection Broil Crisp Probe                        |
+| 49      | Custom Self Clean                                   |
+| 50      | Custom Self Clean Delay Start                       |
+| 51      | Steam Clean                                         |
+| 52      | Steam Clean Delay Start                             |
+| 53      | Dual Broil Low No Option                            |
+| 54      | Dual Broil High No Option                           |
 
+
+### Oven state
+The following is a list of the available oven states and their enumerated value.
+Note that some of these values are not allowed to be set remotely, even when remote enabled.
+Some of these values are deprecated, and are marked with a ~~strikeout~~.
+
+
+| Value   | Name                              |
+|:-------:|:----------------------------------|
+| 0       | No Mode                           |
+| 1       | Preheat                           |
+| 2       | Convection Bake Preheat           |
+| 3       | Convection Multi-Bake Preheat     |
+| 4       | Convection Roast Bake Preheat     |
+| 5       | Bake                              |
+| 6       | Bake Two-Temp                     |
+| 7       | Convection Bake                   |
+| 8       | Convection Bake Two-Temp          |
+| 9       | Convection Mutli-Bake             |
+| 10      | Convection Multi-Two-Bake         |
+| 11      | Convection Roast                  |
+| 12      | Convection Roast 2                |
+| 13      | Low-Broil                         |
+| 14      | High-Broil                        |
+| 15      | Convection High-Broil             |
+| 16      | Convection Low-Broil              |
+| 17      | Convection Crisp-Broil            |
+| 18      | Warm                              |
+| 19      | Proofing                          |
+| 20      | ~~Sabbath~~                       |
+| 21      | Clean Stage 1                     |
+| 22      | Clean Stage 2                     |
+| 23      | Clean Cool Down                   |
+| 24      | Custom Clean Stage 2              |
+| 25      | Steam Clean Stage 1               |
+| 26      | Steam Cool Down                   |
+| 27      | Delay                             |
+| 28      | ~~Warming Drawer Low Preheat~~    |
+| 29      | ~~Warming Drawer Medium Preheat~~ |
+| 30      | ~~Warming Drawer High Preheat~~   |
+| 31      | ~~Warming Drawer Low~~            |
+| 32      | ~~Warming Drawer Medium~~         |
+| 33      | ~~Warming Drawer High~~           |
