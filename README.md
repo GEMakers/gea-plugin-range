@@ -728,13 +728,14 @@ The following is a diagram of the value for each bit in the oven configuration.
 If the bit is set (value is 1) then that option is present.
 If the bit is cleared (value is 0) then that option is not present.
 
-| 15       | 14       | 13       | 12       | 11       | 10       |  9       |  8       |
-|:--------:|:--------:|:--------:|:--------:|:--------:|:--------:|:--------:|:--------:|
-| reserved | reserved | reserved | reserved | reserved | reserved | reserved | reserved |
-
-| 7        | 6        | 5        | 4                        | 3          | 2         |  1             |  0       |
-|:--------:|:--------:|:--------:|:------------------------:|:----------:|:---------:|:--------------:|:--------:|
-| reserved | reserved | reserved | lower oven kitchen timer | lower oven | light bar | warming drawer | knob     |
+| Bit     | Description              |
+|:-------:|:-------------------------|
+| 0       | Knob                     |
+| 1       | Warming drawer           |
+| 2       | Light bar                |
+| 3       | Lower oven               |
+| 4       | Lower oven kitchen timer |
+| 5+      | Reserved                 |
 
 ### Cook mode
 The following is a list of the available cook modes and their enumerated value.
