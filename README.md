@@ -244,7 +244,7 @@ app.bind(adapter, function (bus) {
 ### *range.upperOven.cookMode*
 The upper oven has a cook mode object.
 There are ten fields in this object, some of which are optional when writing:
-- mode (the cook mode, see below)
+- mode (the cook mode, see [cook modes](https://github.com/GEMakers/gea-plugin-range#cook-modes) below)
 - cookTemperature (the cook temperature in F)
 - cookHours (the hour part of the cook time)
 - cookMinutes (the minute part of the cook time)
@@ -255,7 +255,33 @@ There are ten fields in this object, some of which are optional when writing:
 - twoTempHours (the hour part of the two temp time, default: 0)
 - twoTempMinutes (the minute part of the two temp time, default: 0)
 
-Cook modes:
+``` javascript
+app.bind(adapter, function (bus) {
+    bus.on("range", function (range) {
+        range.upperOven.cookMode.read(function (value) {
+            console.log("read:", value);
+        });
+        
+        range.upperOven.cookMode.subscribe(function (value) {
+            console.log("subscribe:", value);
+        });
+        
+        range.upperOven.cookMode.write({
+            mode: 18,
+            cookTemperature: 350,
+            cookHours: 1,
+            cookMinutes: 0
+        });
+    });
+});
+
+```
+
+## Appendix
+
+### Cook modes
+The following is a list of the available cook modes and their enumerated value:
+
 - No Mode - 0
 - Bake No Option - 1
 - Bake Probe - 2
@@ -311,27 +337,4 @@ Cook modes:
 - Steam Clean Delay Start - 52
 - Dual Broil Low No Option - 53
 - Dual Broil High No Option - 54
-
-``` javascript
-app.bind(adapter, function (bus) {
-    bus.on("range", function (range) {
-        range.upperOven.cookMode.read(function (value) {
-            console.log("read:", value);
-        });
-        
-        range.upperOven.cookMode.subscribe(function (value) {
-            console.log("subscribe:", value);
-        });
-        
-        range.upperOven.cookMode.write({
-            mode: 18,
-            cookTemperature: 350,
-            cookHours: 1,
-            cookMinutes: 0
-        });
-    });
-});
-
-```
-
 
