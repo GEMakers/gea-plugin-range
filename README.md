@@ -472,6 +472,227 @@ app.bind(adapter, function (bus) {
 
 ```
 
+### *range.lowerOven.cookMode*
+The lower oven has a cook mode object.
+There are ten fields in this object, some of which are optional when writing:
+- mode (the cook mode, see [cook mode](#cook-mode) below)
+- cookTemperature (the cook temperature in F)
+- cookHours (the hour part of the cook time)
+- cookMinutes (the minute part of the cook time)
+- probeTemperature (the probe temperature in F, default: 0)
+- delayHours (the hour part of the delay time, default: 0)
+- delayMinutes (the minute part of the delay time, default: 0)
+- twoTempTemperature (the two temp temperature in F, default: 0)
+- twoTempHours (the hour part of the two temp time, default: 0)
+- twoTempMinutes (the minute part of the two temp time, default: 0)
+
+``` javascript
+app.bind(adapter, function (bus) {
+    bus.on("range", function (range) {
+        range.lowerOven.cookMode.read(function (value) {
+            console.log("read:", value);
+        });
+        
+        range.lowerOven.cookMode.subscribe(function (value) {
+            console.log("subscribe:", value);
+        });
+        
+        range.lowerOven.cookMode.write({
+            mode: 18,
+            cookTemperature: 350,
+            cookHours: 1,
+            cookMinutes: 0
+        });
+    });
+});
+
+```
+
+### *range.lowerOven.currentState*
+The current lower oven state is a read-only integer value of the [oven state](#oven-state) enumeration.
+
+``` javascript
+app.bind(adapter, function (bus) {
+    bus.on("range", function (range) {
+        range.lowerOven.currentState.read(function (value) {
+            console.log("read:", value);
+        });
+        
+        range.lowerOven.currentState.subscribe(function (value) {
+            console.log("subscribe:", value);
+        });
+    });
+});
+
+```
+
+### *range.lowerOven.delayTimeRemaining*
+The lower oven delay time remaining is a read-only integer representing the amount of delay time remaining (in minutes).
+
+``` javascript
+app.bind(adapter, function (bus) {
+    bus.on("range", function (range) {
+        range.lowerOven.delayTimeRemaining.read(function (value) {
+            console.log("read:", value);
+        });
+        
+        range.lowerOven.delayTimeRemaining.subscribe(function (value) {
+            console.log("subscribe:", value);
+        });
+    });
+});
+
+```
+
+### *range.lowerOven.probeDisplayTemperature*
+The lower oven probe display temperature is a read-only integer representing the probe temperature being displayed (in degrees F).
+
+``` javascript
+app.bind(adapter, function (bus) {
+    bus.on("range", function (range) {
+        range.lowerOven.probeDisplayTemperature.read(function (value) {
+            console.log("read:", value);
+        });
+        
+        range.lowerOven.probeDisplayTemperature.subscribe(function (value) {
+            console.log("subscribe:", value);
+        });
+    });
+});
+
+```
+
+### *range.lowerOven.cookTimeRemaining*
+The lower oven cook time remaining is a read-only integer representing the amount of cook time remaining (in minutes).
+
+``` javascript
+app.bind(adapter, function (bus) {
+    bus.on("range", function (range) {
+        range.lowerOven.cookTimeRemaining.read(function (value) {
+            console.log("read:", value);
+        });
+        
+        range.lowerOven.cookTimeRemaining.subscribe(function (value) {
+            console.log("subscribe:", value);
+        });
+    });
+});
+
+```
+
+### *range.lowerOven.displayTimer*
+The lower oven display timer is an integer representing the initial setting of the display timer (in minutes).
+
+``` javascript
+app.bind(adapter, function (bus) {
+    bus.on("range", function (range) {
+        range.lowerOven.displayTimer.read(function (value) {
+            console.log("read:", value);
+        });
+        
+        range.lowerOven.displayTimer.subscribe(function (value) {
+            console.log("subscribe:", value);
+        });
+        
+        range.lowerOven.displayTimer.write(60);
+    });
+});
+
+```
+
+### *range.lowerOven.userTemperatureOffset*
+The lower oven user temperature offset is an integer representing the temperature offset from the actual temperature for the user (in degrees F).
+
+``` javascript
+app.bind(adapter, function (bus) {
+    bus.on("range", function (range) {
+        range.lowerOven.userTemperatureOffset.read(function (value) {
+            console.log("read:", value);
+        });
+        
+        range.lowerOven.userTemperatureOffset.subscribe(function (value) {
+            console.log("subscribe:", value);
+        });
+        
+        range.lowerOven.userTemperatureOffset.write(50);
+    });
+});
+
+```
+
+### *range.lowerOven.probePresent*
+The lower oven probe presence is a read-only integer value of the [probe presence](#probe-presence) enumeration.
+
+``` javascript
+app.bind(adapter, function (bus) {
+    bus.on("range", function (range) {
+        range.lowerOven.probePresent.read(function (value) {
+            console.log("read:", value);
+        });
+        
+        range.lowerOven.probePresent.subscribe(function (value) {
+            console.log("subscribe:", value);
+        });
+    });
+});
+
+```
+
+### *range.lowerOven.elapsedCookTime*
+The lower oven elapsed cook time is a read-only integer representing the amount of cook time elapsed (in minutes).
+
+``` javascript
+app.bind(adapter, function (bus) {
+    bus.on("range", function (range) {
+        range.lowerOven.elapsedCookTime.read(function (value) {
+            console.log("read:", value);
+        });
+        
+        range.lowerOven.elapsedCookTime.subscribe(function (value) {
+            console.log("subscribe:", value);
+        });
+    });
+});
+
+```
+
+### *range.lowerOven.displayTemperature*
+The lower oven display temperature is a read-only integer representing the oven temperature being displayed (in degrees F).
+
+``` javascript
+app.bind(adapter, function (bus) {
+    bus.on("range", function (range) {
+        range.lowerOven.displayTemperature.read(function (value) {
+            console.log("read:", value);
+        });
+        
+        range.lowerOven.displayTemperature.subscribe(function (value) {
+            console.log("subscribe:", value);
+        });
+    });
+});
+
+```
+
+### *range.lowerOven.remoteEnable*
+The lower oven remote enable is a read-only integer value of the [enabled state](#enabled-state) enumeration.
+Note: in order to write a cook mode, remote control must be enabled for the oven.
+
+``` javascript
+app.bind(adapter, function (bus) {
+    bus.on("range", function (range) {
+        range.lowerOven.remoteEnable.read(function (value) {
+            console.log("read:", value);
+        });
+        
+        range.lowerOven.remoteEnable.subscribe(function (value) {
+            console.log("subscribe:", value);
+        });
+    });
+});
+
+```
+
 ## Appendix
 
 ### Enabled state
