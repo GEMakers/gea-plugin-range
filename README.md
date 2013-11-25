@@ -306,18 +306,94 @@ app.bind(adapter, function (bus) {
 ```
 
 ### *range.upperOven.delayTimeRemaining*
-The upper oven delay time remaining is a read-only integer value of the [oven state](#oven-state) enumeration.
+The upper oven delay time remaining is a read-only integer representing the amount of delay time remaining (in minutes).
 
 ``` javascript
 app.bind(adapter, function (bus) {
     bus.on("range", function (range) {
-        range.upperOven.currentState.read(function (value) {
+        range.upperOven.delayTimeRemaining.read(function (value) {
             console.log("read:", value);
         });
         
-        range.upperOven.currentState.subscribe(function (value) {
+        range.upperOven.delayTimeRemaining.subscribe(function (value) {
             console.log("subscribe:", value);
         });
+    });
+});
+
+```
+
+### *range.upperOven.probeDisplayTemperature*
+The upper oven probe display temperature is a read-only integer representing the probe temperature being displayed (in degrees F).
+
+``` javascript
+app.bind(adapter, function (bus) {
+    bus.on("range", function (range) {
+        range.upperOven.probeDisplayTemperature.read(function (value) {
+            console.log("read:", value);
+        });
+        
+        range.upperOven.probeDisplayTemperature.subscribe(function (value) {
+            console.log("subscribe:", value);
+        });
+    });
+});
+
+```
+
+### *range.upperOven.cookTimeRemaining*
+The upper oven cook time remaining is a read-only integer representing the amount of cook time remaining (in minutes).
+
+``` javascript
+app.bind(adapter, function (bus) {
+    bus.on("range", function (range) {
+        range.upperOven.cookTimeRemaining.read(function (value) {
+            console.log("read:", value);
+        });
+        
+        range.upperOven.cookTimeRemaining.subscribe(function (value) {
+            console.log("subscribe:", value);
+        });
+    });
+});
+
+```
+
+### *range.upperOven.displayTimer*
+The upper oven display timer is an integer representing the initial setting of the display timer (in minutes).
+
+``` javascript
+app.bind(adapter, function (bus) {
+    bus.on("range", function (range) {
+        range.upperOven.displayTimer.read(function (value) {
+            console.log("read:", value);
+        });
+        
+        range.upperOven.displayTimer.subscribe(function (value) {
+            console.log("subscribe:", value);
+        });
+        
+        range.upperOven.displayTimer.write(60);
+    });
+});
+
+```
+
+### *range.upperOven.userTemperatureOffset*
+The upper oven user temperature offset is an integer representing the temperature offset from the actual temperature for the user (in degrees F).
+
+``` javascript
+app.bind(adapter, function (bus) {
+    bus.on("range", function (range) {
+        range.upperOven.userTemperatureOffset.read(function (value) {
+            console.log("read:", value);
+        });
+        
+        range.upperOven.userTemperatureOffset.subscribe(function (value) {
+            console.log("subscribe:", value);
+        });
+        
+        range.upperOven.userTemperatureOffset.write(50);
     });
 });
 
