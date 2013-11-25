@@ -7,8 +7,6 @@
 
 var stream = require("binary-stream");
 
-const MAX_ERD_LENGTH = 100;
-
 var TWELVE_HOUR_SHUTOFF = {
     erd: 0x5000,
     endian: stream.BIG_ENDIAN,
