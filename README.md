@@ -399,6 +399,79 @@ app.bind(adapter, function (bus) {
 
 ```
 
+### *range.upperOven.probePresent*
+The upper oven probe presence is a read-only integer value of the [probe presence](#probe-presence) enumeration.
+
+``` javascript
+app.bind(adapter, function (bus) {
+    bus.on("range", function (range) {
+        range.upperOven.probePresent.read(function (value) {
+            console.log("read:", value);
+        });
+        
+        range.upperOven.probePresent.subscribe(function (value) {
+            console.log("subscribe:", value);
+        });
+    });
+});
+
+```
+
+### *range.upperOven.elapsedCookTime*
+The upper oven elapsed cook time is a read-only integer representing the amount of cook time elapsed (in minutes).
+
+``` javascript
+app.bind(adapter, function (bus) {
+    bus.on("range", function (range) {
+        range.upperOven.elapsedCookTime.read(function (value) {
+            console.log("read:", value);
+        });
+        
+        range.upperOven.elapsedCookTime.subscribe(function (value) {
+            console.log("subscribe:", value);
+        });
+    });
+});
+
+```
+
+### *range.upperOven.displayTemperature*
+The upper oven display temperature is a read-only integer representing the oven temperature being displayed (in degrees F).
+
+``` javascript
+app.bind(adapter, function (bus) {
+    bus.on("range", function (range) {
+        range.upperOven.displayTemperature.read(function (value) {
+            console.log("read:", value);
+        });
+        
+        range.upperOven.displayTemperature.subscribe(function (value) {
+            console.log("subscribe:", value);
+        });
+    });
+});
+
+```
+
+### *range.upperOven.remoteEnable*
+The upper oven remote enable is a read-only integer value of the [enabled state](#enabled-state) enumeration.
+Note: in order to write a cook mode, remote control must be enabled for the oven.
+
+``` javascript
+app.bind(adapter, function (bus) {
+    bus.on("range", function (range) {
+        range.upperOven.remoteEnable.read(function (value) {
+            console.log("read:", value);
+        });
+        
+        range.upperOven.remoteEnable.subscribe(function (value) {
+            console.log("subscribe:", value);
+        });
+    });
+});
+
+```
+
 ## Appendix
 
 ### Enabled state
@@ -408,6 +481,14 @@ The following is a list of the available enabled states and their enumerated val
 |:-------:|:---------|
 | 0       | Disabled |
 | 1       | Enabled  |
+
+### Probe presence
+The following is a list of the available probe presence states and their enumerated value.
+
+| Value   | Name        |
+|:-------:|:------------|
+| 0       | Not present |
+| 1       | Present     |
 
 ### End tone
 The following is a list of the available end tones and their enumerated value.
