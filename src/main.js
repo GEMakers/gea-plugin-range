@@ -7,40 +7,174 @@
 
 var stream = require("binary-stream");
 
-var TWELVE_HOUR_SHUTOFF = {
-    erd: 0x5000,
-    endian: stream.BIG_ENDIAN,
-    format: "UInt8"
-};
+const RANGE_BASE = 0x5000;
+const UPPER_OVEN_BASE = 0x5100;
+const LOWER_OVEN_BASE = 0x5200;
 
-var UPPER_OVEN_COOK_MODE = {
-    erd: 0x5100,
-    endian: stream.BIG_ENDIAN,
-    format: [
-        "mode:UInt8",
-        "cookTemperature:UInt16",
-        "cookHours:UInt8",
-        "cookMinutes:UInt8",
-        "probeTemperature:UInt16:0",
-        "delayHours:UInt8:0",
-        "delayMinutes:UInt8:0",
-        "twoTempTemperature:UInt16:0",
-        "twoTempHours:UInt8:0",
-        "twoTempMinutes:UInt8:0"
-    ]
-};
+function Oven (appliance, base) {
+    this.cookMode = appliance.erd({
+        erd: base++,
+        endian: stream.BIG_ENDIAN,
+        format: [
+            "mode:UInt8",
+            "cookTemperature:UInt16",
+            "cookHours:UInt8",
+            "cookMinutes:UInt8",
+            "probeTemperature:UInt16:0",
+            "delayHours:UInt8:0",
+            "delayMinutes:UInt8:0",
+            "twoTempTemperature:UInt16:0",
+            "twoTempHours:UInt8:0",
+            "twoTempMinutes:UInt8:0"
+        ]
+    });
+    
+    this.currentState = appliance.erd({
+        erd: base++,
+        endian: stream.BIG_ENDIAN,
+        format: "UInt8"
+    });
+    
+    this.delayTimeRemaining = appliance.erd({
+        erd: base++,
+        endian: stream.BIG_ENDIAN,
+        format: "UInt16"
+    });
+    
+    this.probeDisplayTemperature = appliance.erd({
+        erd: base++,
+        endian: stream.BIG_ENDIAN,
+        format: "Int16"
+    });
+    
+    this.cookTimeRemaining = appliance.erd({
+        erd: base++,
+        endian: stream.BIG_ENDIAN,
+        format: "UInt16"
+    });
+    
+    this.displayTimer = appliance.erd({
+        erd: base++,
+        endian: stream.BIG_ENDIAN,
+        format: "UInt16"
+    });
+    
+    this.userTemperatureOffset = appliance.erd({
+        erd: base++,
+        endian: stream.BIG_ENDIAN,
+        format: "Int8"
+    });
+    
+    this.probePresent = appliance.erd({
+        erd: base++,
+        endian: stream.BIG_ENDIAN,
+        format: "UInt8"
+    });
+    
+    this.elapsedCookTime = appliance.erd({
+        erd: base++,
+        endian: stream.BIG_ENDIAN,
+        format: "UInt32"
+    });
+    
+    this.displayTemperature = appliance.erd({
+        erd: base++,
+        endian: stream.BIG_ENDIAN,
+        format: "UInt16"
+    });
+    
+    this.remoteEnable = appliance.erd({
+        erd: base++,
+        endian: stream.BIG_ENDIAN,
+        format: "UInt8"
+    });
+}
 
-function Range (appliance) {
-    appliance.twelveHourShutoff = appliance.erd(TWELVE_HOUR_SHUTOFF);
-    appliance.upperOvenCookMode = appliance.erd(UPPER_OVEN_COOK_MODE);
+function Range (appliance, base) {
+    appliance.twelveHourShutoff = appliance.erd({
+        erd: base++,
+        endian: stream.BIG_ENDIAN,
+        format: "UInt8"
+    });
+    
+    appliance.endTone = appliance.erd({
+        erd: base++,
+        endian: stream.BIG_ENDIAN,
+        format: "UInt8"
+    });
+    
+    appliance.lightBar = appliance.erd({
+        erd: base++,
+        endian: stream.BIG_ENDIAN,
+        format: "UInt8"
+    });
+    
+    appliance.convectionConversion = appliance.erd({
+        erd: base++,
+        endian: stream.BIG_ENDIAN,
+        format: "UInt8"
+    });
+    
+    appliance.elapsedOnTime = appliance.erd({
+        erd: base++,
+        endian: stream.BIG_ENDIAN,
+        format: "UInt32"
+    });
+    
+    appliance.activeFaultCodeStatus = appliance.erd({
+        erd: base++,
+        endian: stream.BIG_ENDIAN,
+        format: [
+            "0:UInt8",
+            "1:UInt8",
+            "2:UInt8",
+            "3:UInt8",
+            "4:UInt8",
+            "5:UInt8",
+            "6:UInt8",
+            "7:UInt8",
+            "8:UInt8",
+            "9:UInt8"
+        ]
+    });
+    
+    appliance.keyPressed = appliance.erd({
+        erd: base++,
+        endian: stream.BIG_ENDIAN,
+        format: "UInt8"
+    });
+    
+    appliance.ovenConfiguration = appliance.erd({
+        erd: base++,
+        endian: stream.BIG_ENDIAN,
+        format: "UInt16"
+    });
+    
+    appliance.ovenModeMinMaxTemperature = appliance.erd({
+        erd: base++,
+        endian: stream.BIG_ENDIAN,
+        format: [
+            "maxTemperature:UInt16",
+            "minTemperature:UInt16",
+        ]
+    });
+    
+    appliance.warmingDrawerState = appliance.erd({
+        erd: base++,
+        endian: stream.BIG_ENDIAN,
+        format: "UInt8"
+    });
+    
+    appliance.upperOven = new Oven(appliance, UPPER_OVEN_BASE);
+    appliance.lowerOven = new Oven(appliance, LOWER_OVEN_BASE);
     
     return appliance;
 }
 
 exports.plugin = function (bus, configuration, callback) {
     bus.on("appliance", function (appliance) {
-        appliance.erd(TWELVE_HOUR_SHUTOFF).read(function (value) {
-            bus.emit("range", Range(appliance));
+        appliance.read(RANGE_BASE, function (value) {
+            bus.emit("range", Range(appliance, RANGE_BASE));
         });
     });
     
