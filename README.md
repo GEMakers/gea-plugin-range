@@ -49,7 +49,7 @@ app.bind(adapter, function (bus) {
 ```
 
 ### *range.twelveHourShutoff*
-The twelve hour shutoff has two possible values: 0 (disabled) or 1 (enabled).
+The twelve hour shutoff is an integer value of the [enabled state](#enabled-state) enumeration.
 
 ``` javascript
 app.bind(adapter, function (bus) {
@@ -69,7 +69,7 @@ app.bind(adapter, function (bus) {
 ```
 
 ### *range.endTone*
-The end tone has two possible values: 0 (beep) or 1 (continuous tone).
+The end tone is an integer value of the [end tone](#end-tone) enumeration.
 
 ``` javascript
 app.bind(adapter, function (bus) {
@@ -89,7 +89,7 @@ app.bind(adapter, function (bus) {
 ```
 
 ### *range.lightBar*
-The light bar has two possible values: 0 (disabled) or 1 (enabled).
+The light bar is an integer value of the [enabled state](#enabled-state) enumeration.
 
 ``` javascript
 app.bind(adapter, function (bus) {
@@ -109,7 +109,7 @@ app.bind(adapter, function (bus) {
 ```
 
 ### *range.convectionConversion*
-The convection conversion has two possible values: 0 (disabled) or 1 (enabled).
+The convection conversion is an integer value of the [enabled state](#enabled-state) enumeration.
 
 ``` javascript
 app.bind(adapter, function (bus) {
@@ -324,6 +324,22 @@ app.bind(adapter, function (bus) {
 ```
 
 ## Appendix
+
+### Enabled state
+The following is a list of the available enabled states and their enumerated value.
+
+| Value   | Name     |
+|:-------:|:---------|
+| 0       | Disabled |
+| 1       | Enabled  |
+
+### End tone
+The following is a list of the available end tones and their enumerated value.
+
+| Value   | Name            |
+|:-------:|:----------------|
+| 0       | Beep            |
+| 1       | Continuous tone |
 
 ### Warming drawer state
 The following is a list of the available warming drawer states and their enumerated value.
