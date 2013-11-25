@@ -240,3 +240,98 @@ app.bind(adapter, function (bus) {
 });
 
 ```
+
+### *range.upperOven.cookMode*
+The upper oven has a cook mode object.
+There are ten fields in this object, some of which are optional when writing:
+- mode (the cook mode, see below)
+- cookTemperature (the cook temperature in F)
+- cookHours (the hour part of the cook time)
+- cookMinutes (the minute part of the cook time)
+- probeTemperature (the probe temperature in F, default: 0)
+- delayHours (the hour part of the delay time, default: 0)
+- delayMinutes (the minute part of the delay time, default: 0)
+- twoTempTemperature (the two temp temperature in F, default: 0)
+- twoTempHours (the hour part of the two temp time, default: 0)
+- twoTempMinutes (the minute part of the two temp time, default: 0)
+
+Cook modes:
+- No Mode - 0
+- Bake No Option - 1
+- Bake Probe - 2
+- Bake Delay Start - 3
+- Bake Timed Warm - 4
+- Bake Timed Two Temp - 5
+- Bake Probe Delay Start - 6
+- Bake Timed Shutoff Delay Start - 7
+- Bake Timed Warm Delay Start - 8
+- Bake Timed TwoTemp Delay Start - 9
+- Bake Sabbath - 10
+- Broil Low - 11
+- Broil High - 12
+- Proof No Option - 13
+- Proof Delay Start - 14
+- Warm No Option - 15
+- Warm Probe - 16
+- Warm Delay Start - 17
+- Convection Bake No Option - 18
+- Convection Bake Probe - 19
+- Convection Bake Delay Start - 20
+- Convection Bake Timed Warm - 21
+- Convection Bake Timed TwoTemp - 22
+- Convection Bake Probe Delay Start - 23
+- Convection Bake Timed Shutoff Delay Start - 24
+- Convection Bake Timed Warm Delay Start - 25
+- Convection Bake Timed TwoTemp Delay Start - 26
+- Convection Multi-Bake No Option - 27
+- Convection Multi-Bake Probe - 28
+- Convection Multi-Bake Delay Start - 29
+- Convection Multi-Bake Timed Warm - 30
+- Convection Multi-Bake Timed TwoTemp - 31
+- Convection Multi-Bake Probe Delay Start - 32
+- Convection Multi-Bake Timed Shutoff Delay Start - 33
+- Convection Multi-Bake Timed Warm Delay Start - 34
+- Convection Multi-Bake Timed TwoTemp Delay Start - 35
+- Convection Roast No Option - 36
+- Convection Roast Probe - 37
+- Convection Roast Delay Start - 38
+- Convection Roast Timed Warm - 39
+- Convection Roast Timed TwoTemp - 40
+- Convection Roast Probe Delay Start - 41
+- Convection Roast Timed Shutoff Delay Start - 42
+- Convection Roast Timed Warm Delay Start - 43
+- Convection Roast Timed TwoTemp Delay Start - 44
+- Convection Broil Low No Option - 45
+- Convection Broil High No Option - 46
+- Convection Broil Crisp No Option - 47
+- Convection Broil Crisp Probe - 48
+- Custom Self Clean - 49
+- Custom Self Clean Delay Start - 50
+- Steam Clean - 51
+- Steam Clean Delay Start - 52
+- Dual Broil Low No Option - 53
+- Dual Broil High No Option - 54
+
+``` javascript
+app.bind(adapter, function (bus) {
+    bus.on("range", function (range) {
+        range.upperOven.cookMode.read(function (value) {
+            console.log("read:", value);
+        });
+        
+        range.upperOven.cookMode.subscribe(function (value) {
+            console.log("subscribe:", value);
+        });
+        
+        range.upperOven.cookMode.write({
+            mode: 18,
+            cookTemperature: 350,
+            cookHours: 1,
+            cookMinutes: 0
+        });
+    });
+});
+
+```
+
+
