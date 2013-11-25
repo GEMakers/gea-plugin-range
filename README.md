@@ -244,7 +244,7 @@ app.bind(adapter, function (bus) {
 ### *range.upperOven.cookMode*
 The upper oven has a cook mode object.
 There are ten fields in this object, some of which are optional when writing:
-- mode (the cook mode, see [cook modes](https://github.com/GEMakers/gea-plugin-range#cook-modes) below)
+- mode (the cook mode, see [cook modes](#cook-modes) below)
 - cookTemperature (the cook temperature in F)
 - cookHours (the hour part of the cook time)
 - cookMinutes (the minute part of the cook time)
@@ -278,35 +278,17 @@ app.bind(adapter, function (bus) {
 ```
 
 ### *range.upperOven.currentState*
-The upper oven has a cook mode object.
-There are ten fields in this object, some of which are optional when writing:
-- mode (the cook mode, see [cook modes](https://github.com/GEMakers/gea-plugin-range#cook-modes) below)
-- cookTemperature (the cook temperature in F)
-- cookHours (the hour part of the cook time)
-- cookMinutes (the minute part of the cook time)
-- probeTemperature (the probe temperature in F, default: 0)
-- delayHours (the hour part of the delay time, default: 0)
-- delayMinutes (the minute part of the delay time, default: 0)
-- twoTempTemperature (the two temp temperature in F, default: 0)
-- twoTempHours (the hour part of the two temp time, default: 0)
-- twoTempMinutes (the minute part of the two temp time, default: 0)
+The current upper oven state is a read-only [oven state](#oven-state) enumeration.
 
 ``` javascript
 app.bind(adapter, function (bus) {
     bus.on("range", function (range) {
-        range.upperOven.cookMode.read(function (value) {
+        range.upperOven.currentState.read(function (value) {
             console.log("read:", value);
         });
         
-        range.upperOven.cookMode.subscribe(function (value) {
+        range.upperOven.currentState.subscribe(function (value) {
             console.log("subscribe:", value);
-        });
-        
-        range.upperOven.cookMode.write({
-            mode: 18,
-            cookTemperature: 350,
-            cookHours: 1,
-            cookMinutes: 0
         });
     });
 });
