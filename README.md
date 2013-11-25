@@ -187,13 +187,7 @@ app.bind(adapter, function (bus) {
 ```
 
 ### *range.ovenConfiguration*
-The oven configuration is a read-only unsigned integer.
-Each bit determines whether or not a hardware configuration is present (0 is not present, 1 is present).
-- Knob model (bit 0)
-- Warming drawer (bit 1)
-- Light bar (bit 2)
-- Lower oven (bit 3)
-- Lower oven kitchen timer (bit 4)
+The oven configuration is a read-only unsigned integer value of the [oven configuration](#oven-configuration) bit field.
 
 ``` javascript
 app.bind(adapter, function (bus) {
@@ -728,6 +722,19 @@ The following is a list of the available warming drawer states and their enumera
 | 1       | Low    |
 | 2       | Medium |
 | 3       | High   |
+
+### Oven configuration
+The following is a diagram of the value for each bit in the oven configuration.
+If the bit is set (value is 1) then that option is present.
+If the bit is cleared (value is 0) then that option is not present.
+
+| 15       | 14       | 13       | 12       | 11       | 10       |  9       |  8       |
+|:--------:|:--------:|:--------:|:--------:|:--------:|:--------:|:--------:|:--------:|
+| reserved | reserved | reserved | reserved | reserved | reserved | reserved | reserved |
+
+| 7        | 6        | 5        | 4                        | 3          | 2         |  1             |  0       |
+|:--------:|:--------:|:--------:|:------------------------:|:----------:|:---------:|:--------------:|:--------:|
+| reserved | reserved | reserved | lower oven kitchen timer | lower oven | light bar | warming drawer | knob     |
 
 ### Cook mode
 The following is a list of the available cook modes and their enumerated value.
