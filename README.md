@@ -280,7 +280,8 @@ app.bind(adapter, function (bus) {
 ## Appendix
 
 ### Cook modes
-The following is a list of the available cook modes and their enumerated value:
+The following is a list of the available cook modes and their enumerated value.
+Note that some of these values are not allowed to be set remotely, even when remote enabled.
 
 - No Mode - 0
 - Bake No Option - 1
