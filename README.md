@@ -49,7 +49,7 @@ app.bind(adapter, function (bus) {
 ```
 
 ### *range.twelveHourShutoff*
-The twelve hour shutoff is read-only and has two possible values: 0 (disabled) or 1 (enabled).
+The twelve hour shutoff has two possible values: 0 (disabled) or 1 (enabled).
 
 ``` javascript
 app.bind(adapter, function (bus) {
@@ -61,13 +61,15 @@ app.bind(adapter, function (bus) {
         range.twelveHourShutoff.subscribe(function (value) {
             console.log("subscribe:", value);
         });
+        
+        range.twelveHourShutoff.write(1);
     });
 });
 
 ```
 
 ### *range.endTone*
-The end tone is read-only and has two possible values: 0 (beep) or 1 (continuous tone).
+The end tone has two possible values: 0 (beep) or 1 (continuous tone).
 
 ``` javascript
 app.bind(adapter, function (bus) {
@@ -79,13 +81,15 @@ app.bind(adapter, function (bus) {
         range.endTone.subscribe(function (value) {
             console.log("subscribe:", value);
         });
+        
+        range.endTone.write(0);
     });
 });
 
 ```
 
 ### *range.lightBar*
-The light bar is read-only and has two possible values: 0 (disabled) or 1 (enabled).
+The light bar has two possible values: 0 (disabled) or 1 (enabled).
 
 ``` javascript
 app.bind(adapter, function (bus) {
@@ -97,13 +101,15 @@ app.bind(adapter, function (bus) {
         range.lightBar.subscribe(function (value) {
             console.log("subscribe:", value);
         });
+        
+        range.lightBar.write(1);
     });
 });
 
 ```
 
 ### *range.convectionConversion*
-The convection conversion is read-only and has two possible values: 0 (disabled) or 1 (enabled).
+The convection conversion has two possible values: 0 (disabled) or 1 (enabled).
 
 ``` javascript
 app.bind(adapter, function (bus) {
@@ -115,6 +121,8 @@ app.bind(adapter, function (bus) {
         range.convectionConversion.subscribe(function (value) {
             console.log("subscribe:", value);
         });
+        
+        range.convectionConversion.write(1);
     });
 });
 
@@ -224,7 +232,7 @@ app.bind(adapter, function (bus) {
 ```
 
 ### *range.warmingDrawerState*
-The twelve hour shutoff is read-only and has four possible values: 0 (Off), 1 (Low), 2 (Medium), and 3 (High).
+The warming drawer state is an integer value of the [warming drawer state](#warming-drawer-state) enumeration.
 
 ``` javascript
 app.bind(adapter, function (bus) {
@@ -236,6 +244,8 @@ app.bind(adapter, function (bus) {
         range.warmingDrawerState.subscribe(function (value) {
             console.log("subscribe:", value);
         });
+        
+        range.warmingDrawerState.write(2);
     });
 });
 
@@ -244,7 +254,7 @@ app.bind(adapter, function (bus) {
 ### *range.upperOven.cookMode*
 The upper oven has a cook mode object.
 There are ten fields in this object, some of which are optional when writing:
-- mode (the cook mode, see [cook modes](#cook-modes) below)
+- mode (the cook mode, see [cook mode](#cook-mode) below)
 - cookTemperature (the cook temperature in F)
 - cookHours (the hour part of the cook time)
 - cookMinutes (the minute part of the cook time)
@@ -278,7 +288,25 @@ app.bind(adapter, function (bus) {
 ```
 
 ### *range.upperOven.currentState*
-The current upper oven state is a read-only [oven state](#oven-state) enumeration.
+The current upper oven state is a read-only integer value of the [oven state](#oven-state) enumeration.
+
+``` javascript
+app.bind(adapter, function (bus) {
+    bus.on("range", function (range) {
+        range.upperOven.currentState.read(function (value) {
+            console.log("read:", value);
+        });
+        
+        range.upperOven.currentState.subscribe(function (value) {
+            console.log("subscribe:", value);
+        });
+    });
+});
+
+```
+
+### *range.upperOven.delayTimeRemaining*
+The upper oven delay time remaining is a read-only integer value of the [oven state](#oven-state) enumeration.
 
 ``` javascript
 app.bind(adapter, function (bus) {
@@ -297,7 +325,17 @@ app.bind(adapter, function (bus) {
 
 ## Appendix
 
-### Cook modes
+### Warming drawer state
+The following is a list of the available warming drawer states and their enumerated value.
+
+| Value   | Name   |
+|:-------:|:-------|
+| 0       | Off    |
+| 1       | Low    |
+| 2       | Medium |
+| 3       | High   |
+
+### Cook mode
 The following is a list of the available cook modes and their enumerated value.
 Note that some of these values are not allowed to be set remotely, even when remote enabled.
 Some of these values are deprecated, and are marked with a ~~strikeout~~.
@@ -360,12 +398,10 @@ Some of these values are deprecated, and are marked with a ~~strikeout~~.
 | 53      | Dual Broil Low No Option                            |
 | 54      | Dual Broil High No Option                           |
 
-
 ### Oven state
 The following is a list of the available oven states and their enumerated value.
 Note that some of these values are not allowed to be set remotely, even when remote enabled.
 Some of these values are deprecated, and are marked with a ~~strikeout~~.
-
 
 | Value   | Name                              |
 |:-------:|:----------------------------------|
