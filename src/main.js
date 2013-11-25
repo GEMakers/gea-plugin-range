@@ -5,25 +5,43 @@
  *  
  */
 
-const ERD_REMOTE_ENABLE = 0x510A;
-const ERD_LAST_KEY_PRESSED = 0x5006;
-const ERD_UPPER_COOK_MODE = 0x5100;
+var stream = require("binary-stream");
 
-function Range(appliance) {
-    appliance.subscribe(ERD_REMOTE_ENABLE, function (data) {
-        appliance.emit("remoteEnable", data[0]);
-    });
-    
-    appliance.subscribe(ERD_LAST_KEY_PRESSED, function (data) {
-        appliance.emit("keyPress", data[0]);
-    });
+const MAX_ERD_LENGTH = 100;
+
+var TWELVE_HOUR_SHUTOFF = {
+    erd: 0x5000,
+    endian: stream.BIG_ENDIAN,
+    format: "UInt8"
+};
+
+var UPPER_OVEN_COOK_MODE = {
+    erd: 0x5100,
+    endian: stream.BIG_ENDIAN,
+    format: [
+        "mode:UInt8",
+        "cookTemperature:UInt16",
+        "cookHours:UInt8",
+        "cookMinutes:UInt8",
+        "probeTemperature:UInt16:0",
+        "delayHours:UInt8:0",
+        "delayMinutes:UInt8:0",
+        "twoTempTemperature:UInt16:0",
+        "twoTempHours:UInt8:0",
+        "twoTempMinutes:UInt8:0"
+    ]
+};
+
+function Range (appliance) {
+    appliance.twelveHourShutoff = appliance.erd(TWELVE_HOUR_SHUTOFF);
+    appliance.upperOvenCookMode = appliance.erd(UPPER_OVEN_COOK_MODE);
     
     return appliance;
 }
 
 exports.plugin = function (bus, configuration, callback) {
     bus.on("appliance", function (appliance) {
-        appliance.read(ERD_UPPER_COOK_MODE, function (value) {
+        appliance.erd(TWELVE_HOUR_SHUTOFF).read(function (value) {
             bus.emit("range", Range(appliance));
         });
     });
