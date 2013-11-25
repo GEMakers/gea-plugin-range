@@ -124,18 +124,7 @@ function Range (appliance, base) {
     appliance.activeFaultCodeStatus = appliance.erd({
         erd: base++,
         endian: stream.BIG_ENDIAN,
-        format: [
-            "0:UInt8",
-            "1:UInt8",
-            "2:UInt8",
-            "3:UInt8",
-            "4:UInt8",
-            "5:UInt8",
-            "6:UInt8",
-            "7:UInt8",
-            "8:UInt8",
-            "9:UInt8"
-        ]
+        format: "Bytes@10"
     });
     
     appliance.keyPressed = appliance.erd({
