@@ -27,7 +27,6 @@ app.plugin(require("gea-plugin-range"));
 app.bind(adapter, function (bus) {
     // the bus now has all of the range plugin functions
 });
-
 ```
 
 ## Range API
@@ -45,7 +44,6 @@ app.bind(adapter, function (bus) {
         console.log("version:", range.version.join("."));
     });
 });
-
 ```
 
 ### *range.twelveHourShutoff*
@@ -65,7 +63,6 @@ app.bind(adapter, function (bus) {
         range.twelveHourShutoff.write(1);
     });
 });
-
 ```
 
 ### *range.endTone*
@@ -85,7 +82,6 @@ app.bind(adapter, function (bus) {
         range.endTone.write(0);
     });
 });
-
 ```
 
 ### *range.lightBar*
@@ -105,7 +101,6 @@ app.bind(adapter, function (bus) {
         range.lightBar.write(1);
     });
 });
-
 ```
 
 ### *range.convectionConversion*
@@ -125,7 +120,6 @@ app.bind(adapter, function (bus) {
         range.convectionConversion.write(1);
     });
 });
-
 ```
 
 ### *range.elapsedOnTime*
@@ -143,7 +137,6 @@ app.bind(adapter, function (bus) {
         });
     });
 });
-
 ```
 
 ### *range.activeFaultCodeStatus*
@@ -164,7 +157,6 @@ app.bind(adapter, function (bus) {
         });
     });
 });
-
 ```
 
 ### *range.keyPressed*
@@ -183,7 +175,6 @@ app.bind(adapter, function (bus) {
         });
     });
 });
-
 ```
 
 ### *range.ovenConfiguration*
@@ -201,7 +192,6 @@ app.bind(adapter, function (bus) {
         });
     });
 });
-
 ```
 
 ### *range.ovenModeMinMaxTemperature*
@@ -222,7 +212,6 @@ app.bind(adapter, function (bus) {
         });
     });
 });
-
 ```
 
 ### *range.warmingDrawerState*
@@ -242,7 +231,6 @@ app.bind(adapter, function (bus) {
         range.warmingDrawerState.write(2);
     });
 });
-
 ```
 
 ### *range.upperOven.cookMode*
@@ -278,7 +266,6 @@ app.bind(adapter, function (bus) {
         });
     });
 });
-
 ```
 
 ### *range.upperOven.currentState*
@@ -296,7 +283,6 @@ app.bind(adapter, function (bus) {
         });
     });
 });
-
 ```
 
 ### *range.upperOven.delayTimeRemaining*
@@ -314,7 +300,6 @@ app.bind(adapter, function (bus) {
         });
     });
 });
-
 ```
 
 ### *range.upperOven.probeDisplayTemperature*
@@ -332,7 +317,6 @@ app.bind(adapter, function (bus) {
         });
     });
 });
-
 ```
 
 ### *range.upperOven.cookTimeRemaining*
@@ -350,7 +334,6 @@ app.bind(adapter, function (bus) {
         });
     });
 });
-
 ```
 
 ### *range.upperOven.displayTimer*
@@ -370,7 +353,6 @@ app.bind(adapter, function (bus) {
         range.upperOven.displayTimer.write(60);
     });
 });
-
 ```
 
 ### *range.upperOven.userTemperatureOffset*
@@ -390,7 +372,6 @@ app.bind(adapter, function (bus) {
         range.upperOven.userTemperatureOffset.write(50);
     });
 });
-
 ```
 
 ### *range.upperOven.probePresent*
@@ -408,7 +389,6 @@ app.bind(adapter, function (bus) {
         });
     });
 });
-
 ```
 
 ### *range.upperOven.elapsedCookTime*
@@ -426,7 +406,6 @@ app.bind(adapter, function (bus) {
         });
     });
 });
-
 ```
 
 ### *range.upperOven.displayTemperature*
@@ -444,7 +423,6 @@ app.bind(adapter, function (bus) {
         });
     });
 });
-
 ```
 
 ### *range.upperOven.remoteEnable*
@@ -463,7 +441,6 @@ app.bind(adapter, function (bus) {
         });
     });
 });
-
 ```
 
 ### *range.lowerOven.cookMode*
@@ -499,7 +476,6 @@ app.bind(adapter, function (bus) {
         });
     });
 });
-
 ```
 
 ### *range.lowerOven.currentState*
@@ -517,7 +493,6 @@ app.bind(adapter, function (bus) {
         });
     });
 });
-
 ```
 
 ### *range.lowerOven.delayTimeRemaining*
@@ -535,7 +510,6 @@ app.bind(adapter, function (bus) {
         });
     });
 });
-
 ```
 
 ### *range.lowerOven.probeDisplayTemperature*
@@ -553,7 +527,6 @@ app.bind(adapter, function (bus) {
         });
     });
 });
-
 ```
 
 ### *range.lowerOven.cookTimeRemaining*
@@ -571,7 +544,6 @@ app.bind(adapter, function (bus) {
         });
     });
 });
-
 ```
 
 ### *range.lowerOven.displayTimer*
@@ -591,7 +563,6 @@ app.bind(adapter, function (bus) {
         range.lowerOven.displayTimer.write(60);
     });
 });
-
 ```
 
 ### *range.lowerOven.userTemperatureOffset*
@@ -611,7 +582,6 @@ app.bind(adapter, function (bus) {
         range.lowerOven.userTemperatureOffset.write(50);
     });
 });
-
 ```
 
 ### *range.lowerOven.probePresent*
@@ -629,7 +599,6 @@ app.bind(adapter, function (bus) {
         });
     });
 });
-
 ```
 
 ### *range.lowerOven.elapsedCookTime*
@@ -647,7 +616,6 @@ app.bind(adapter, function (bus) {
         });
     });
 });
-
 ```
 
 ### *range.lowerOven.displayTemperature*
@@ -665,7 +633,6 @@ app.bind(adapter, function (bus) {
         });
     });
 });
-
 ```
 
 ### *range.lowerOven.remoteEnable*
@@ -684,7 +651,6 @@ app.bind(adapter, function (bus) {
         });
     });
 });
-
 ```
 
 ## Appendix
