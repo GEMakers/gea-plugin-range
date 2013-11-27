@@ -154,6 +154,17 @@ exports.plugin = function (bus, configuration, callback) {
         });
     });
     
+    var create = bus.create;
+    
+    bus.create = function (name, callback) {
+        create(name, function (appliance) {
+            if (name == "range") {
+                Range(appliance, RANGE_BASE);
+            }
+            
+            callback(appliance);
+        });
+    };
+    
     callback(bus);
 };
-
