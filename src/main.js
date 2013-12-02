@@ -159,6 +159,8 @@ exports.plugin = function (bus, configuration, callback) {
     bus.create = function (name, callback) {
         create(name, function (appliance) {
             if (name == "range") {
+                appliance.address = configuration.address;
+                appliance.version = configuration.version;
                 Range(appliance, RANGE_BASE);
             }
             
