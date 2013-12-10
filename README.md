@@ -2,6 +2,52 @@
 
 This node.js package provides functionality for communicating with a range via the [GEA SDK](https://github.com/GEMakers/gea-sdk).
 
+## Table of Contents
+
+- [Installation](#installation)
+- [API](#range-api)
+  - [bus.on("range", callback)](#busonrange-callback)
+    - [range.twelveHourShutoff](#rangetwelvehourshutoff)
+    - [range.endTone](#rangeendtone)
+    - [range.lightBar](#rangelightbar)
+    - [range.convectionConversion](#rangeconvectionconversion)
+    - [range.elapsedOnTime](#rangeelapsedontime)
+    - [range.activeFaultCodeStatus](#rangeactivefaultcodestatus)
+    - [range.keyPressed](#rangekeypressed)
+    - [range.ovenConfiguration](#rangeovenconfiguration)
+    - [range.ovenModeMinMaxTemperature](#rangeovenmodeminmaxtemperature)
+    - [range.warmingDrawerState](#rangewarmingdrawerstate)
+    - [range.upperOven.cookMode](#rangeupperovencookmode)
+    - [range.upperOven.currentState](#rangeupperovencurrentstate)
+    - [range.upperOven.delayTimeRemaining](#rangeupperovendelaytimeremaining)
+    - [range.upperOven.probeDisplayTemperature](#rangeupperovenprobedisplaytemperature)
+    - [range.upperOven.cookTimeRemaining](#rangeupperovencooktimeremaining)
+    - [range.upperOven.displayTimer](#rangeupperovendisplaytimer)
+    - [range.upperOven.userTemperatureOffset](#rangeupperovenusertemperatureoffset)
+    - [range.upperOven.probePresent](#rangeupperovenprobepresent)
+    - [range.upperOven.elapsedCookTime](#rangeupperovenelapsedcooktime)
+    - [range.upperOven.displayTemperature](#rangeupperovendisplaytemperature)
+    - [range.upperOven.remoteEnable](#rangeupperovenremoteenable)
+    - [range.lowerOven.cookMode](#rangelowerovencookmode)
+    - [range.lowerOven.currentState](#rangelowerovencurrentstate)
+    - [range.lowerOven.delayTimeRemaining](#rangelowerovendelaytimeremaining)
+    - [range.lowerOven.probeDisplayTemperature](#rangelowerovenprobedisplaytemperature)
+    - [range.lowerOven.cookTimeRemaining](#rangelowerovencooktimeremaining)
+    - [range.lowerOven.displayTimer](#rangelowerovendisplaytimer)
+    - [range.lowerOven.userTemperatureOffset](#rangelowerovenusertemperatureoffset)
+    - [range.lowerOven.probePresent](#rangelowerovenprobepresent)
+    - [range.lowerOven.elapsedCookTime](#rangelowerovenelapsedcooktime)
+    - [range.lowerOven.displayTemperature](#rangelowerovendisplaytemperature)
+    - [range.lowerOven.remoteEnable](#rangelowerovenremoteenable)
+- [Appendix](#appendix)
+  - [Enabled state](#enabled-state)
+  - [Probe presence](#probe-presence)
+  - [End tone](#end-tone)
+  - [Warming drawer state](#warming-drawer-state)
+  - [Oven configuration](#oven-configuration)
+  - [Cook mode](#cook-mode)
+  - [Oven state](#oven-state)
+
 ## Installation
 To install this application using the node.js package manager, issue the following commands:
 
