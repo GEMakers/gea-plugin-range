@@ -993,25 +993,6 @@ app.bind(adapter, function (bus) {
 });
 ```
 
-### *range.glassTouchErrors*
-The glass touch errors are a read-only object with the following fields:
-- keyStatus (the key status, see [key status](#key-status))
-- keyBitmap (an array of bytes representing a bitmap of the keys that are currently pressed)
-            
-``` javascript
-app.bind(adapter, function (bus) {
-    bus.on("range", function (range) {
-        range.glassTouchErrors.read(function (value) {
-            console.log("read:", value);
-        });
-        
-        range.glassTouchErrors.subscribe(function (value) {
-            console.log("subscribe:", value);
-        });
-    });
-});
-```
-
 ### *range.leds*
 The light emitting diodes are a write-only object with the following fields:
 - upperOvenLedStatus (an array of bytes representing the upper oven light emitting diodes)
