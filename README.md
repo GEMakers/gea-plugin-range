@@ -39,6 +39,22 @@ This node.js package provides functionality for communicating with a range via t
     - [range.lowerOven.elapsedCookTime](#rangelowerovenelapsedcooktime)
     - [range.lowerOven.displayTemperature](#rangelowerovendisplaytemperature)
     - [range.lowerOven.remoteEnable](#rangelowerovenremoteenable)
+    - [range.fctMode](#rangefctmode)
+    - [range.doorLock](#rangedoorlock)
+    - [range.resetEEPROM()](#rangereseteeprom)
+    - [range.elementStatus](#rangeelementstatus)
+    - [range.convectionFan](#rangeconvectionfan)
+    - [range.coolingFan](#rangecoolingfan)
+    - [range.coolingFanRevolutionsPerMinute](#rangecoolingfanrevolutionsperminute)
+    - [range.mainControlModuleStatus](#rangemaincontrolmodulestatus)
+    - [range.analogInputs](#rangeanaloginputs)
+    - [range.inputStatus](#rangeinputstatus)
+    - [range.keysCurrentlyPressed](#rangekeyscurrentlypressed)
+    - [range.latchedKeyPresses](#rangelatchedkeypresses)
+    - [range.clearLatchedKeyPresses()](#rangeclearlatchedkeypresses)
+    - [range.glassTouchErrors](#rangeglasstoucherrors)
+    - [range.leds](#rangeleds)
+    - [range.buzzerTone](#rangebuzzertone)
 - [Appendix](#appendix)
   - [Enabled state](#enabled-state)
   - [Probe presence](#probe-presence)
@@ -47,6 +63,14 @@ This node.js package provides functionality for communicating with a range via t
   - [Oven configuration](#oven-configuration)
   - [Cook mode](#cook-mode)
   - [Oven state](#oven-state)
+  - [FCT mode](#fct-mode)
+  - [Door lock](#door-lock)
+  - [Element status](#element-status)
+  - [Fan rotation](#fan-rotation)
+  - [Fan speed](#fan-speed)
+  - [Input status](#input-status)
+  - [Key status](#key-status)
+  - [Buzzer tone](#buzzer-tone)
 
 ## Installation
 To install this application using the node.js package manager, issue the following commands:
@@ -682,8 +706,7 @@ app.bind(adapter, function (bus) {
 ```
 
 ### *range.lowerOven.remoteEnable*
-The lower oven remote enable is a read-only integer value of the [enabled state](#enabled-state) enumeration.
-Note: in order to write a cook mode, remote control must be enabled for the oven.
+The lower oven remote enable is a read-only integer value of the [enabled state](#enabled-state) enumeration. *Note that in order to write a cook mode, remote control must be enabled for the oven.*
 
 ``` javascript
 app.bind(adapter, function (bus) {
@@ -695,6 +718,323 @@ app.bind(adapter, function (bus) {
         range.lowerOven.remoteEnable.subscribe(function (value) {
             console.log("subscribe:", value);
         });
+    });
+});
+```
+
+### *range.fctMode*
+The FCT mode is a write-only integer value of the [FCT mode](#fct-mode) enumeration. *Note that FCT mode times out after 30 seconds. In order to stay in FCT mode, the command must be sent on an interval.*
+
+``` javascript
+app.bind(adapter, function (bus) {
+    bus.on("range", function (range) {
+        range.fctMode.write(0xff, function (value) {
+            console.log("current mode:", value);
+        });
+        
+        // stay in FCT mode
+        setInterval(function() {
+            range.fctMode.write(1);
+        }, 15000);
+    });
+});
+```
+
+### *range.doorLock*
+The door lock is a write-only object with the following fields:
+- upperOvenDoorLock (the door lock status of the upper oven, see [door lock](#door-lock) below)
+- lowerOvenDoorLock (the door lock status of the lower oven, see [door lock](#door-lock) below)
+
+``` javascript
+app.bind(adapter, function (bus) {
+    bus.on("range", function (range) {
+        range.doorLock.write({
+            upperOvenDoorLock: 1,
+            lowerOvenDoorLock: 0
+        });
+    });
+});
+```
+
+### *range.resetEEPROM()*
+This function will reset the EEPROM to the default values.
+
+``` javascript
+app.bind(adapter, function (bus) {
+    bus.on("range", function (range) {
+        range.resetEEPROM();
+    });
+});
+```
+
+### *range.elementStatus*
+The element status is an object with the following fields:
+- upperOvenElementStatus (the elements of the upper oven, see [element status](#element-status) below)
+- lowerOvenElementStatus (the elements of the lower oven, see [element status](#element-status) below)
+
+``` javascript
+app.bind(adapter, function (bus) {
+    bus.on("range", function (range) {
+        range.elementStatus.read(function (value) {
+            console.log("read:", value);
+        });
+        
+        range.elementStatus.subscribe(function (value) {
+            console.log("subscribe:", value);
+        });
+    
+        range.elementStatus.write({
+            upperOvenElementStatus: 0,
+            lowerOvenElementStatus: 0
+        });
+    });
+});
+```
+
+### *range.convectionFan*
+The convection fan is an object with the following fields:
+- upperOvenConvectionFanDrivePercentage (the duty cycle for the convection fan of the upper oven)
+- upperOvenConvectionFanRotation (the rotation of the convection fan of the upper oven, see [fan rotation](#fan-rotation) below)
+- lowerOvenConvectionFanDrivePercentage (the duty cycle for the convection fan of the lower oven)
+- lowerOvenConvectionFanRotation (the rotation of the convection fan of the lower oven, see [fan rotation](#fan-rotation) below)
+
+``` javascript
+app.bind(adapter, function (bus) {
+    bus.on("range", function (range) {
+        range.convectionFan.read(function (value) {
+            console.log("read:", value);
+        });
+        
+        range.convectionFan.subscribe(function (value) {
+            console.log("subscribe:", value);
+        });
+    
+        range.convectionFan.write({
+            upperOvenConvectionFanDrivePercentage: 75,
+            upperOvenConvectionFanRotation: 1,
+            lowerOvenConvectionFanDrivePercentage: 0,
+            lowerOvenConvectionFanRotation: 0
+        });
+    });
+});
+```
+
+### *range.coolingFan*
+The cooling fan is an object with the following fields:
+- upperOvenCoolingFan (the fan speed of the upper oven cooling fan, see [fan speed](fan-speed) below)
+- lowerOvenCoolingFan (the fan speed of the lower oven cooling fan, see [fan speed](fan-speed) below)
+
+``` javascript
+app.bind(adapter, function (bus) {
+    bus.on("range", function (range) {
+        range.coolingFan.read(function (value) {
+            console.log("read:", value);
+        });
+        
+        range.coolingFan.subscribe(function (value) {
+            console.log("subscribe:", value);
+        });
+    
+        range.coolingFan.write({
+            upperOvenCoolingFan: 1,
+            lowerOvenCoolingFan: 0
+        });
+    });
+});
+```
+
+### *range.coolingFanRevolutionsPerMinute*
+The cooling fan revolutions per minute is a read-only object with the following fields:
+- upperOvenCoolingFanRevolutionsPerMinute (the number of revolutions per minute of the upper oven cooling fan)
+- lowerOvenCoolingFanRevolutionsPerMinute (the number of revolutions per minute of the lower oven cooling fan)
+
+``` javascript
+app.bind(adapter, function (bus) {
+    bus.on("range", function (range) {
+        range.coolingFanRevolutionsPerMinute.read(function (value) {
+            console.log("read:", value);
+        });
+        
+        range.coolingFanRevolutionsPerMinute.subscribe(function (value) {
+            console.log("subscribe:", value);
+        });
+    });
+});
+```
+
+### *range.mainControlModuleStatus*
+The main control module status is a read-only object with the following fields:
+- upperOvenCookMode (the upper oven cook mode, see [cook mode](#cook-mode) below)
+- upperOvenErrors (the upper oven error bit field)
+- lowerOvenCookMode (the lower oven cook mode, see [cook mode](#cook-mode) below)
+- lowerOvenErrors (the lower oven error bit field)
+
+``` javascript
+app.bind(adapter, function (bus) {
+    bus.on("range", function (range) {
+        range.mainControlModuleStatus.read(function (value) {
+            console.log("read:", value);
+        });
+        
+        range.mainControlModuleStatus.subscribe(function (value) {
+            console.log("subscribe:", value);
+        });
+    });
+});
+```
+
+### *range.analogInputs*
+The analog inputs are a read-only object with the following fields:
+- upperOvenRtdFine (the analog temperature reading of the upper oven fine resistive thermal device)
+- upperOvenRtd (the analog temperature reading of the upper oven resistive thermal device)
+- upperOvenProbe (the analog temperature reading of the upper oven probe)
+- lowerOvenRtdFine (the analog temperature reading of the lower oven fine resistive thermal device)
+- lowerOvenRtd (the analog temperature reading of the lower oven resistive thermal device)
+- lowerOvenProbe (the analog temperature reading of the lower oven probe)
+            
+``` javascript
+app.bind(adapter, function (bus) {
+    bus.on("range", function (range) {
+        range.analogInputs.read(function (value) {
+            console.log("read:", value);
+        });
+        
+        range.analogInputs.subscribe(function (value) {
+            console.log("subscribe:", value);
+        });
+    });
+});
+```
+
+### *range.inputStatus*
+The input status is a read-only object with the following fields:
+- upperOvenInputStatus (the upper oven input status, see [input status](#input-status) bit field)
+- lowerOvenInputStatus (the lower oven input status, see [input status](#input-status) bit field)
+            
+``` javascript
+app.bind(adapter, function (bus) {
+    bus.on("range", function (range) {
+        range.inputStatus.read(function (value) {
+            console.log("read:", value);
+        });
+        
+        range.inputStatus.subscribe(function (value) {
+            console.log("subscribe:", value);
+        });
+    });
+});
+```
+
+### *range.keysCurrentlyPressed*
+The keys currently pressed are a read-only object with the following fields:
+- keyStatus (the key status, see [key status](#key-status))
+- keyBitmap (an array of bytes representing a bitmap of the keys that are currently pressed)
+            
+``` javascript
+app.bind(adapter, function (bus) {
+    bus.on("range", function (range) {
+        range.keysCurrentlyPressed.read(function (value) {
+            console.log("read:", value);
+        });
+        
+        range.keysCurrentlyPressed.subscribe(function (value) {
+            console.log("subscribe:", value);
+        });
+    });
+});
+```
+
+### *range.latchedKeyPresses*
+The latched key presses are a read-only object with the following fields:
+- keyStatus (the key status, see [key status](#key-status))
+- keyBitmap (an array of bytes representing a bitmap of the keys that are currently pressed)
+            
+``` javascript
+app.bind(adapter, function (bus) {
+    bus.on("range", function (range) {
+        range.latchedKeyPresses.read(function (value) {
+            console.log("read:", value);
+        });
+        
+        range.latchedKeyPresses.subscribe(function (value) {
+            console.log("subscribe:", value);
+        });
+    });
+});
+```
+
+### *range.clearLatchedKeyPresses()*
+This functions clears the latched key presses reported in [range.latchedKeyPresses](#rangelatchedkeypresses).
+            
+``` javascript
+app.bind(adapter, function (bus) {
+    bus.on("range", function (range) {
+        range.clearLatchedKeyPresses();
+    });
+});
+```
+
+### *range.glassTouchErrors*
+The glass touch errors are a read-only object with the following fields:
+- keyStatus (the key status, see [key status](#key-status))
+- keyBitmap (an array of bytes representing a bitmap of the keys that are currently pressed)
+            
+``` javascript
+app.bind(adapter, function (bus) {
+    bus.on("range", function (range) {
+        range.glassTouchErrors.read(function (value) {
+            console.log("read:", value);
+        });
+        
+        range.glassTouchErrors.subscribe(function (value) {
+            console.log("subscribe:", value);
+        });
+    });
+});
+```
+
+### *range.glassTouchErrors*
+The glass touch errors are a read-only object with the following fields:
+- keyStatus (the key status, see [key status](#key-status))
+- keyBitmap (an array of bytes representing a bitmap of the keys that are currently pressed)
+            
+``` javascript
+app.bind(adapter, function (bus) {
+    bus.on("range", function (range) {
+        range.glassTouchErrors.read(function (value) {
+            console.log("read:", value);
+        });
+        
+        range.glassTouchErrors.subscribe(function (value) {
+            console.log("subscribe:", value);
+        });
+    });
+});
+```
+
+### *range.leds*
+The light emitting diodes are a write-only object with the following fields:
+- upperOvenLedStatus (an array of bytes representing the upper oven light emitting diodes)
+- lowerOvenLedStatus (an array of bytes representing the lower oven light emitting diodes)
+            
+``` javascript
+app.bind(adapter, function (bus) {
+    bus.on("range", function (range) {
+        range.leds.write({
+            upperOvenLedStatus: [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ],
+            lowerOvenLedStatus: [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ]
+        });
+    });
+});
+```
+
+### *range.buzzerTone*
+The buzzer tone is a write-only integer value of the [buzzer tone](#buzzer-tone) enumeration.
+
+``` javascript
+app.bind(adapter, function (bus) {
+    bus.on("range", function (range) {
+        range.buzzerTone.write(5);
     });
 });
 ```
@@ -853,3 +1193,105 @@ Some of these values are deprecated, and are marked with a ~~strikeout~~.
 | 31      | ~~Warming Drawer Low~~            |
 | 32      | ~~Warming Drawer Medium~~         |
 | 33      | ~~Warming Drawer High~~           |
+
+### FCT mode
+The following is a list of the available FCT modes and their enumerated value.
+
+| Value   | Name            |
+|:-------:|:----------------|
+| 0x00    | Exit FCT mode   |
+| 0x01    | Enter FCT mode  |
+| 0xff    | Query FCT mode  |
+
+### Door lock
+The following is a list of the available door lock states and their enumerated value.
+
+| Value   | Name     |
+|:-------:|:---------|
+| 0       | Unlock   |
+| 1       | Lock     |
+
+### Element status
+The following is a diagram of the value for each bit in the elements.
+If the bit is set (value is 1) then that element is turned on.
+If the bit is cleared (value is 0) then that element is turned off.
+
+| Bit     | Description              |
+|:-------:|:-------------------------|
+| 0       | Primary bake             |
+| 1       | Secondary bake           |
+| 2       | Primary broil            |
+| 3       | Secondary broil          |
+| 4       | Primary convection       |
+| 5       | Secondary convection     |
+| 6+      | Reserved                 |
+
+### Fan rotation
+The following is a list of the available fan rotations and their enumerated value.
+
+| Value   | Name                |
+|:-------:|:--------------------|
+| 0       | Counter clockwise   |
+| 1       | Clockwise           |
+
+### Fan speed
+The following is a list of the available fan speeds and their enumerated value.
+
+| Value   | Name                                 |
+|:-------:|:-------------------------------------|
+| 0       | Off                                  |
+| 1       | Low speed                            |
+| 2       | High speed (not available for TO12)  |
+
+### Input status
+The following is a diagram of the value for each bit in the input status.
+If the bit is set (value is 1) then that element is turned on.
+If the bit is cleared (value is 0) then that element is turned off.
+Some of these values are deprecated, and are marked with a ~~strikeout~~.
+
+| Bit     | Description                                                              |
+|:-------:|:-------------------------------------------------------------------------|
+| 0       | Buzzer type (decay = 0, non-decay = 1)                                   |
+| 1       | Door is initialized (incomplete = 0, complete = 1)                       |
+| 2-3     | Voltage type (demo mode = 0, 120V = 1, 208V = 2, 240V = 3)               |
+| 4-5     | Frequency (invalid = 0, 50Hz = 1, 60Hz = 2)                              |
+| 6       | Debug LED (off = 0, flashing = 1)                                        |
+| 7       | ~~Fault status (no fault = 0, fault = 1)~~                               |
+| 8-9     | Door switch (unknown = 0, opened = 1)                                    |
+| 10-11   | Door lock status (unknown = 0, unlocked = 1, locked = 2, transition = 3) |
+| 12-13   | Oven light status (unknown = 0, off = 1, on = 2)                         |
+| 14      | Convection fan rotation (counter clockwise = 0, clockwise = 1)           |
+| 15      | Probe status (not present = 0, present = 1)                              |
+
+### Key status
+The following is a list of the available warming drawer states and their enumerated value.
+
+| Value   | Name                  |
+|:-------:|:----------------------|
+| 0       | Key currently pressed |
+| 1       | Latched key presses   |
+| 2       | Reset latched keys    |
+| 3       | Glass touch errors    |
+
+### Buzzer tone
+The following is a list of the available buzzer tones and their enumerated value.
+
+| Value   | Name              |
+|:-------:|:------------------|
+| 0       | None              |
+| 1       | Failure           |
+| 2       | Touch             |
+| 3       | Unavailable touch |
+| 4       | Error             |
+| 5       | Attention         |
+| 6       | Notification      |
+| 7       | Remainder         |
+| 8       | Alarm 1           |
+| 9       | Press hold on     |
+| 10      | Press hold off    |
+| 11      | Increase          |
+| 12      | Decrease          |
+| 13      | On                |
+| 14      | Off               |
+| 15      | Alarm 2           |
+| 16      | Select            |
