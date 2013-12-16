@@ -728,9 +728,8 @@ The FCT mode is a write-only integer value of the [FCT mode](#fct-mode) enumerat
 ``` javascript
 app.bind(adapter, function (bus) {
     bus.on("range", function (range) {
-        range.fctMode.write(0xff, function (value) {
-            console.log("current mode:", value);
-        });
+        // enter FCT mode
+        range.fctMode.write(1);
         
         // stay in FCT mode
         setInterval(function() {
