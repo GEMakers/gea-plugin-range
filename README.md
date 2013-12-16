@@ -723,7 +723,7 @@ app.bind(adapter, function (bus) {
 ```
 
 ### *range.fctMode*
-The FCT mode is a write-only integer value of the [FCT mode](#fct-mode) enumeration. *Note that FCT mode times out after 30 seconds. In order to stay in FCT mode, the command must be sent on an interval.*
+The functional control test mode is a write-only integer value of the [FCT mode](#fct-mode) enumeration. *Note that FCT mode times out after 30 seconds. In order to stay in FCT mode, the command must be sent on an interval.*
 
 ``` javascript
 app.bind(adapter, function (bus) {
@@ -744,6 +744,8 @@ The door lock is a write-only object with the following fields:
 - upperOvenDoorLock (the door lock status of the upper oven, see [door lock](#door-lock) below)
 - lowerOvenDoorLock (the door lock status of the lower oven, see [door lock](#door-lock) below)
 
+*Note that this functionality is only available in FCT mode (see [range.fctMode](#rangefctmode) above).*
+
 ``` javascript
 app.bind(adapter, function (bus) {
     bus.on("range", function (range) {
@@ -756,7 +758,7 @@ app.bind(adapter, function (bus) {
 ```
 
 ### *range.resetEEPROM()*
-This function will reset the EEPROM to the default values.
+This function will reset the EEPROM to the default values. *Note that this functionality is only available in FCT mode (see [range.fctMode](#rangefctmode) above).*
 
 ``` javascript
 app.bind(adapter, function (bus) {
@@ -770,6 +772,8 @@ app.bind(adapter, function (bus) {
 The element status is an object with the following fields:
 - upperOvenElementStatus (the elements of the upper oven, see [element status](#element-status) below)
 - lowerOvenElementStatus (the elements of the lower oven, see [element status](#element-status) below)
+
+*Note that this functionality is only available in FCT mode (see [range.fctMode](#rangefctmode) above).*
 
 ``` javascript
 app.bind(adapter, function (bus) {
@@ -797,6 +801,8 @@ The convection fan is an object with the following fields:
 - lowerOvenConvectionFanDrivePercentage (the duty cycle for the convection fan of the lower oven)
 - lowerOvenConvectionFanRotation (the rotation of the convection fan of the lower oven, see [fan rotation](#fan-rotation) below)
 
+*Note that this functionality is only available in FCT mode (see [range.fctMode](#rangefctmode) above).*
+
 ``` javascript
 app.bind(adapter, function (bus) {
     bus.on("range", function (range) {
@@ -823,6 +829,8 @@ The cooling fan is an object with the following fields:
 - upperOvenCoolingFan (the fan speed of the upper oven cooling fan, see [fan speed](fan-speed) below)
 - lowerOvenCoolingFan (the fan speed of the lower oven cooling fan, see [fan speed](fan-speed) below)
 
+*Note that this functionality is only available in FCT mode (see [range.fctMode](#rangefctmode) above).*
+
 ``` javascript
 app.bind(adapter, function (bus) {
     bus.on("range", function (range) {
@@ -847,6 +855,8 @@ The cooling fan revolutions per minute is a read-only object with the following 
 - upperOvenCoolingFanRevolutionsPerMinute (the number of revolutions per minute of the upper oven cooling fan)
 - lowerOvenCoolingFanRevolutionsPerMinute (the number of revolutions per minute of the lower oven cooling fan)
 
+*Note that this functionality is only available in FCT mode (see [range.fctMode](#rangefctmode) above).*
+
 ``` javascript
 app.bind(adapter, function (bus) {
     bus.on("range", function (range) {
@@ -867,6 +877,8 @@ The main control module status is a read-only object with the following fields:
 - upperOvenErrors (the upper oven error bit field)
 - lowerOvenCookMode (the lower oven cook mode, see [cook mode](#cook-mode) below)
 - lowerOvenErrors (the lower oven error bit field)
+
+*Note that this functionality is only available in FCT mode (see [range.fctMode](#rangefctmode) above).*
 
 ``` javascript
 app.bind(adapter, function (bus) {
@@ -890,7 +902,9 @@ The analog inputs are a read-only object with the following fields:
 - lowerOvenRtdFine (the analog temperature reading of the lower oven fine resistive thermal device)
 - lowerOvenRtd (the analog temperature reading of the lower oven resistive thermal device)
 - lowerOvenProbe (the analog temperature reading of the lower oven probe)
-            
+
+*Note that this functionality is only available in FCT mode (see [range.fctMode](#rangefctmode) above).*
+
 ``` javascript
 app.bind(adapter, function (bus) {
     bus.on("range", function (range) {
@@ -909,7 +923,9 @@ app.bind(adapter, function (bus) {
 The input status is a read-only object with the following fields:
 - upperOvenInputStatus (the upper oven input status, see [input status](#input-status) bit field)
 - lowerOvenInputStatus (the lower oven input status, see [input status](#input-status) bit field)
-            
+
+*Note that this functionality is only available in FCT mode (see [range.fctMode](#rangefctmode) above).*
+
 ``` javascript
 app.bind(adapter, function (bus) {
     bus.on("range", function (range) {
@@ -928,7 +944,9 @@ app.bind(adapter, function (bus) {
 The keys currently pressed are a read-only object with the following fields:
 - keyStatus (the key status, see [key status](#key-status))
 - keyBitmap (an array of bytes representing a bitmap of the keys that are currently pressed)
-            
+
+*Note that this functionality is only available in FCT mode (see [range.fctMode](#rangefctmode) above).*
+
 ``` javascript
 app.bind(adapter, function (bus) {
     bus.on("range", function (range) {
@@ -947,7 +965,9 @@ app.bind(adapter, function (bus) {
 The latched key presses are a read-only object with the following fields:
 - keyStatus (the key status, see [key status](#key-status))
 - keyBitmap (an array of bytes representing a bitmap of the keys that are currently pressed)
-            
+
+*Note that this functionality is only available in FCT mode (see [range.fctMode](#rangefctmode) above).*
+
 ``` javascript
 app.bind(adapter, function (bus) {
     bus.on("range", function (range) {
@@ -963,8 +983,8 @@ app.bind(adapter, function (bus) {
 ```
 
 ### *range.clearLatchedKeyPresses()*
-This functions clears the latched key presses reported in [range.latchedKeyPresses](#rangelatchedkeypresses).
-            
+This functions clears the latched key presses reported in [range.latchedKeyPresses](#rangelatchedkeypresses). *Note that this functionality is only available in FCT mode (see [range.fctMode](#rangefctmode) above).*
+
 ``` javascript
 app.bind(adapter, function (bus) {
     bus.on("range", function (range) {
@@ -977,7 +997,9 @@ app.bind(adapter, function (bus) {
 The glass touch errors are a read-only object with the following fields:
 - keyStatus (the key status, see [key status](#key-status))
 - keyBitmap (an array of bytes representing a bitmap of the keys that are currently pressed)
-            
+
+*Note that this functionality is only available in FCT mode (see [range.fctMode](#rangefctmode) above).*
+
 ``` javascript
 app.bind(adapter, function (bus) {
     bus.on("range", function (range) {
@@ -996,7 +1018,9 @@ app.bind(adapter, function (bus) {
 The light emitting diodes are a write-only object with the following fields:
 - upperOvenLedStatus (an array of bytes representing the upper oven light emitting diodes)
 - lowerOvenLedStatus (an array of bytes representing the lower oven light emitting diodes)
-            
+
+*Note that this functionality is only available in FCT mode (see [range.fctMode](#rangefctmode) above).*
+
 ``` javascript
 app.bind(adapter, function (bus) {
     bus.on("range", function (range) {
@@ -1009,7 +1033,7 @@ app.bind(adapter, function (bus) {
 ```
 
 ### *range.buzzerTone*
-The buzzer tone is a write-only integer value of the [buzzer tone](#buzzer-tone) enumeration.
+The buzzer tone is a write-only integer value of the [buzzer tone](#buzzer-tone) enumeration. *Note that this functionality is only available in FCT mode (see [range.fctMode](#rangefctmode) above).*
 
 ``` javascript
 app.bind(adapter, function (bus) {
@@ -1175,7 +1199,7 @@ Some of these values are deprecated, and are marked with a ~~strikeout~~.
 | 33      | ~~Warming Drawer High~~           |
 
 ### FCT mode
-The following is a list of the available FCT modes and their enumerated value.
+The following is a list of the available functional control test modes and their enumerated value.
 
 | Value   | Name            |
 |:-------:|:----------------|
