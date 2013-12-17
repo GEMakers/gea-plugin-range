@@ -84,7 +84,7 @@ function Oven (appliance, base) {
     });
 }
 
-function Range (appliance, base) {
+function Range (bus, appliance, base) {
     appliance.twelveHourShutoff = appliance.erd({
         erd: base++,
         format: "UInt8"
@@ -232,34 +232,36 @@ function Range (appliance, base) {
         ]
     });
     
-    appliance.keysCurrentlyPressed = appliance.command({
+    var userInterfaceBoard = bus.endpoint(0xf4, appliance.address);
+    
+    appliance.keysCurrentlyPressed = userInterfaceBoard.command({
         command: 0xb3,
         readData: [0],
         format: [
-            "keyStatus:UInt16",
-            "keyBitmap:Bytes@5"
+            "keyStatus:UInt8",
+            "keyBitmap:Bytes"
         ]
     });
     
-    appliance.latchedKeyPresses = appliance.command({
+    appliance.latchedKeyPresses = userInterfaceBoard.command({
         command: 0xb3,
         readData: [1],
         format: [
-            "keyStatus:UInt16",
-            "keyBitmap:Bytes@5"
+            "keyStatus:UInt8",
+            "keyBitmap:Bytes"
         ]
     });
     
     appliance.clearLatchedKeyPresses = function() {
-        appliance.send(0xb3, [2]);
+        userInterfaceBoard.send(0xb3, [2]);
     };
     
-    appliance.glassTouchErrors = appliance.command({
+    appliance.glassTouchErrors = userInterfaceBoard.command({
         command: 0xb3,
         readData: [3],
         format: [
-            "keyStatus:UInt16",
-            "keyBitmap:Bytes@5"
+            "keyStatus:UInt8",
+            "keyBitmap:Bytes"
         ]
     });
     
@@ -282,7 +284,7 @@ function Range (appliance, base) {
 exports.plugin = function (bus, configuration, callback) {
     bus.on("appliance", function (appliance) {
         appliance.read(RANGE_BASE, function (value) {
-            bus.emit("range", Range(appliance, RANGE_BASE));
+            bus.emit("range", Range(bus, appliance, RANGE_BASE));
         });
     });
     
@@ -293,7 +295,7 @@ exports.plugin = function (bus, configuration, callback) {
             if (name == "range") {
                 appliance.address = configuration.address;
                 appliance.version = configuration.version;
-                Range(appliance, RANGE_BASE);
+                Range(bus, appliance, RANGE_BASE);
             }
             
             callback(appliance);

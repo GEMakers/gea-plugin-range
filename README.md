@@ -1289,7 +1289,7 @@ The following is a list of the available buzzer tones and their enumerated value
 | 4       | Error             |
 | 5       | Attention         |
 | 6       | Notification      |
-| 7       | Remainder         |
+| 7       | Reminder          |
 | 8       | Alarm 1           |
 | 9       | Press hold on     |
 | 10      | Press hold off    |
