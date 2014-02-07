@@ -1,15 +1,26 @@
 /*
- * Copyright (c) 2013 - General Electric - Confidential - All Rights Reserved
- * 
- * Author: Christopher Baker <christopher.baker2@ge.com>
- *
  * This application will start a number guessing game using the range display.
  * The range will pick a random number between 0 and 99. The goal is to guess
  * the number correctly. The user will be scored based on number of guesses.
  * The lower the score the better.
  *
+ * Copyright (c) 2014 General Electric
+ *  
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *  
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+ * 
  */
-
 
 var gea = require("gea-sdk");
 var adapter = require("gea-adapter-usb");
