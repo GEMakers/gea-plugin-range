@@ -2,38 +2,6 @@
 
 This node.js package provides functionality for communicating with a range via the [GEA SDK](https://github.com/GEMakers/gea-sdk).
 
-### Guidelines for Safe and Reliable Operation
-
-#### Mode Refresh
-The EOL mode must be asserted with the EOL Test Mode (0xA0 + 0x01) command at least one time every 5 minutes (2.5 minute periodic rate is recommended). 
-
-#### Heating Element
-A heating element that is on must have its state periodically updated at least every 5 minutes (2.5 minutes is recommended).
-
-#### Cooling Fan operation
-Cooling fan must be on during all cook modes (any heating element energized) and remain on as long as the temperature in either cavity is greater than 175.
-
-#### Relay Operation
-Excessive relay cycling can shorten the life of the relays.
-
-#### Cavity Temperature
-Oven cavity temperature should not exceed 550 degrees while the door is unlocked.  If you intend to run an operation that will exceed cavity temperature of 550 – lock door before starting the cook mode (energizing any elements).
-
-#### Door Lock Operation
-The door lock may be incapable of changing state at elevated temperatures.  Once a Door is locked, it should remain locked until the cavity temperatures drop below 400 degrees.
-
-#### Surface Temperatures
-If operation on any individual oven cavity is to exceed 550 degrees F then the other oven should not be operated during this entire cooking cycle. Concurrent operation of oven cavities at high temperatures (where door lock is required) can overheat components and/or result in high surface temperatures that can injure on contact.
-
-#### Open Door Cooking Modes
-For models with controls directly above the door, do not allow cook modes to continue with the door open for more than 1 minute as it can result in high component temperatures leading to control damage.
-
-#### Cooktop Operation
-Do not allow operation of the cooktop if any operating above 550 degrees F is intended.
-
-#### Documented Commands
-The documented commands may not be an exhaustive list. Some current or future command implementations may adversely affect the continued operation of the unit.  As a result experimentation with any undocumented commands is not recommended.
-
 ## Table of Contents
 
 - [Installation](#installation)
