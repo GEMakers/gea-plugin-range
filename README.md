@@ -1,12 +1,11 @@
-# Range Plugin for the GEA SDK
+# Range
+**General Electric Appliances Range Software Development Kit**
 
-This node.js package provides functionality for communicating with a range via the [GEA SDK](https://github.com/GEMakers/gea-sdk).
+This node.js package provides functionality for communicating with a range via the [General Electric Appliance Software Development Kit](https://github.com/GEMakers/gea-sdk). In order to use this software, you must first connect your range to your computer using the [Green Bean](https://github.com/GEMakers/green-bean).
 
-## Table of Contents
+## Overview
 
-- [Installation](#installation)
-- [API](#range-api)
-  - [bus.on("range", callback)](#busonrange-callback)
+1. [Using the Software](#using-the-software)
     - [range.twelveHourShutoff](#rangetwelvehourshutoff)
     - [range.endTone](#rangeendtone)
     - [range.lightBar](#rangelightbar)
@@ -55,255 +54,214 @@ This node.js package provides functionality for communicating with a range via t
     - [range.glassTouchErrors](#rangeglasstoucherrors)
     - [range.leds](#rangeleds)
     - [range.buzzerTone](#rangebuzzertone)
-- [Appendix](#appendix)
-  - [Enabled state](#enabled-state)
-  - [Probe presence](#probe-presence)
-  - [End tone](#end-tone)
-  - [Warming drawer state](#warming-drawer-state)
-  - [Oven configuration](#oven-configuration)
-  - [Cook mode](#cook-mode)
-  - [Oven state](#oven-state)
-  - [FCT mode](#fct-mode)
-  - [Door lock](#door-lock)
-  - [Element status](#element-status)
-  - [Fan rotation](#fan-rotation)
-  - [Fan speed](#fan-speed)
-  - [Input status](#input-status)
-  - [Key status](#key-status)
-  - [Buzzer tone](#buzzer-tone)
+1. [Appendix](#appendix)
+    - [Enabled state](#enabled-state)
+    - [Probe presence](#probe-presence)
+    - [End tone](#end-tone)
+    - [Warming drawer state](#warming-drawer-state)
+    - [Oven configuration](#oven-configuration)
+    - [Cook mode](#cook-mode)
+    - [Oven state](#oven-state)
+    - [FCT mode](#fct-mode)
+    - [Door lock](#door-lock)
+    - [Element status](#element-status)
+    - [Fan rotation](#fan-rotation)
+    - [Fan speed](#fan-speed)
+    - [Input status](#input-status)
+    - [Key status](#key-status)
+    - [Buzzer tone](#buzzer-tone)
 
-## Installation
-To install this application using the node.js package manager, issue the following commands:
+### Using the Software
+Below are a few node.js applications that demonstrate how to use this package to interact with a range.
 
-```
-npm install git+https://github.com/GEMakers/gea-plugin-range.git
-```
-
-To include the plugin in your application, use the *plugin* function after configuring your application.
-
-``` javascript
-var gea = require("gea-sdk");
-var adapter = require("gea-adapter-usb");
-
-// configure your application
-var app = gea.configure({
-    address: 0xcb
-});
-
-// include the range plugin in your application
-app.plugin(require("gea-plugin-range"));
-
-// bind to the adapter to access the bus
-app.bind(adapter, function (bus) {
-    // the bus now has all of the range plugin functions
-});
-```
-
-## Range API
-Below is the documentation for each of the functions provided by this plugin, as well as a few examples showing how to use them.
-
-### *bus.on("range", callback)*
-This event is emitted whenever a range has been discovered on the bus.
-A range object is passed from the plugin to the function.
-This range object inherits all functions and properties from the appliance object.
-
-``` javascript
-app.bind(adapter, function (bus) {
-    bus.on("range", function (range) {
-        console.log("address:", range.address);
-        console.log("version:", range.version.join("."));
-    });
-});
-```
-
-### *range.twelveHourShutoff*
+#### *range.twelveHourShutoff*
 The twelve hour shutoff is an integer value of the [enabled state](#enabled-state) enumeration.
 
 ``` javascript
-app.bind(adapter, function (bus) {
-    bus.on("range", function (range) {
-        range.twelveHourShutoff.read(function (value) {
-            console.log("read:", value);
-        });
-        
-        range.twelveHourShutoff.subscribe(function (value) {
-            console.log("subscribe:", value);
-        });
-        
-        range.twelveHourShutoff.write(1);
+var greenBean = require("green-bean");
+
+greenBean.connect("range", function(range) {
+    range.twelveHourShutoff.read(function(value) {
+        console.log("twelve hour shutoff is:", value);
     });
+    
+    range.twelveHourShutoff.subscribe(function(value) {
+        console.log("twelve hour shutoff changed:", value);
+    });
+    
+    range.twelveHourShutoff.write(1);
 });
 ```
 
-### *range.endTone*
+#### *range.endTone*
 The end tone is an integer value of the [end tone](#end-tone) enumeration.
 
 ``` javascript
-app.bind(adapter, function (bus) {
-    bus.on("range", function (range) {
-        range.endTone.read(function (value) {
-            console.log("read:", value);
-        });
-        
-        range.endTone.subscribe(function (value) {
-            console.log("subscribe:", value);
-        });
-        
-        range.endTone.write(0);
+var greenBean = require("green-bean");
+
+greenBean.connect("range", function(range) {
+    range.endTone.read(function(value) {
+        console.log("end tone is:", value);
     });
+    
+    range.endTone.subscribe(function(value) {
+        console.log("end tone changed:", value);
+    });
+    
+    range.endTone.write(0);
 });
 ```
 
-### *range.lightBar*
+#### *range.lightBar*
 The light bar is an integer value of the [enabled state](#enabled-state) enumeration.
 
 ``` javascript
-app.bind(adapter, function (bus) {
-    bus.on("range", function (range) {
-        range.lightBar.read(function (value) {
-            console.log("read:", value);
-        });
-        
-        range.lightBar.subscribe(function (value) {
-            console.log("subscribe:", value);
-        });
-        
-        range.lightBar.write(1);
+var greenBean = require("green-bean");
+
+greenBean.connect("range", function(range) {
+    range.lightBar.read(function(value) {
+        console.log("light bar is:", value);
     });
+    
+    range.lightBar.subscribe(function(value) {
+        console.log("light bar changed:", value);
+    });
+    
+    range.lightBar.write(1);
 });
 ```
 
-### *range.convectionConversion*
+#### *range.convectionConversion*
 The convection conversion is an integer value of the [enabled state](#enabled-state) enumeration.
 
 ``` javascript
-app.bind(adapter, function (bus) {
-    bus.on("range", function (range) {
-        range.convectionConversion.read(function (value) {
-            console.log("read:", value);
-        });
-        
-        range.convectionConversion.subscribe(function (value) {
-            console.log("subscribe:", value);
-        });
-        
-        range.convectionConversion.write(1);
+var greenBean = require("green-bean");
+
+greenBean.connect("range", function(range) {
+    range.convectionConversion.read(function(value) {
+        console.log("convection conversion is:", value);
     });
+    
+    range.convectionConversion.subscribe(function(value) {
+        console.log("convection conversion changed:", value);
+    });
+    
+    range.convectionConversion.write(1);
 });
 ```
 
-### *range.elapsedOnTime*
+#### *range.elapsedOnTime*
 The elapsed on time is a read-only unsigned integer with units in minutes.
 
 ``` javascript
-app.bind(adapter, function (bus) {
-    bus.on("range", function (range) {
-        range.elapsedOnTime.read(function (value) {
-            console.log("read:", value);
-        });
-        
-        range.elapsedOnTime.subscribe(function (value) {
-            console.log("subscribe:", value);
-        });
+var greenBean = require("green-bean");
+
+greenBean.connect("range", function(range) {
+    range.elapsedOnTime.read(function(value) {
+        console.log("elapsed on time is:", value);
+    });
+    
+    range.elapsedOnTime.subscribe(function(value) {
+        console.log("elapsed on time changed:", value);
     });
 });
 ```
 
-### *range.activeFaultCodeStatus*
+#### *range.activeFaultCodeStatus*
 The active fault code status is a read-only array of bytes.
 Each byte represents the fault code number.
 Up to ten fault codes can be active at once.
 Zero means no active fault.
 
 ``` javascript
-app.bind(adapter, function (bus) {
-    bus.on("range", function (range) {
-        range.activeFaultCodeStatus.read(function (value) {
-            console.log("read:", value);
-        });
-        
-        range.activeFaultCodeStatus.subscribe(function (value) {
-            console.log("subscribe:", value);
-        });
+var greenBean = require("green-bean");
+
+greenBean.connect("range", function(range) {
+    range.activeFaultCodeStatus.read(function(value) {
+        console.log("active fault codes are:", value);
+    });
+    
+    range.activeFaultCodeStatus.subscribe(function(value) {
+        console.log("active fault codes changed:", value);
     });
 });
 ```
 
-### *range.keyPressed*
+#### *range.keyPressed*
 The key press is a read-only unsigned integer representing the last key that was pressed on the user interface.
 Each key has a pre-defined, unique number.
 
 ``` javascript
-app.bind(adapter, function (bus) {
-    bus.on("range", function (range) {
-        range.keyPressed.read(function (value) {
-            console.log("read:", value);
-        });
-        
-        range.keyPressed.subscribe(function (value) {
-            console.log("subscribe:", value);
-        });
+var greenBean = require("green-bean");
+
+greenBean.connect("range", function(range) {
+    range.keyPressed.read(function(value) {
+        console.log("last key pressed is:", value);
+    });
+    
+    range.keyPressed.subscribe(function(value) {
+        console.log("last key pressed changed:", value);
     });
 });
 ```
 
-### *range.ovenConfiguration*
+#### *range.ovenConfiguration*
 The oven configuration is a read-only unsigned integer value of the [oven configuration](#oven-configuration) bit field.
 
 ``` javascript
-app.bind(adapter, function (bus) {
-    bus.on("range", function (range) {
-        range.ovenConfiguration.read(function (value) {
-            console.log("read:", value);
-        });
-        
-        range.ovenConfiguration.subscribe(function (value) {
-            console.log("subscribe:", value);
-        });
+var greenBean = require("green-bean");
+
+greenBean.connect("range", function(range) {
+    range.ovenConfiguration.read(function(value) {
+        console.log("oven configuration is:", value);
+    });
+    
+    range.ovenConfiguration.subscribe(function(value) {
+        console.log("oven configuration changed:", value);
     });
 });
 ```
 
-### *range.ovenModeMinMaxTemperature*
+#### *range.ovenModeMinMaxTemperature*
 The oven mode for minimum and maximum temperature is a read-only object.
 There are two fields in this object:
 - maxTemperature (the maximum oven temperature in F)
 - minTemperature (the minimum oven temperature in F)
 
 ``` javascript
-app.bind(adapter, function (bus) {
-    bus.on("range", function (range) {
-        range.ovenModeMinMaxTemperature.read(function (value) {
-            console.log("read:", value);
-        });
-        
-        range.ovenModeMinMaxTemperature.subscribe(function (value) {
-            console.log("subscribe:", value);
-        });
+var greenBean = require("green-bean");
+
+greenBean.connect("range", function(range) {
+    range.ovenModeMinMaxTemperature.read(function(value) {
+        console.log("oven minimum and maximum temperatures are:", value);
+    });
+    
+    range.ovenModeMinMaxTemperature.subscribe(function(value) {
+        console.log("oven minimum and maximum temperatures changed:", value);
     });
 });
 ```
 
-### *range.warmingDrawerState*
+#### *range.warmingDrawerState*
 The warming drawer state is an integer value of the [warming drawer state](#warming-drawer-state) enumeration.
 
 ``` javascript
-app.bind(adapter, function (bus) {
-    bus.on("range", function (range) {
-        range.warmingDrawerState.read(function (value) {
-            console.log("read:", value);
-        });
-        
-        range.warmingDrawerState.subscribe(function (value) {
-            console.log("subscribe:", value);
-        });
-        
-        range.warmingDrawerState.write(2);
+var greenBean = require("green-bean");
+
+greenBean.connect("range", function(range) {
+    range.warmingDrawerState.read(function(value) {
+        console.log("warming drawer state is:", value);
     });
+    
+    range.warmingDrawerState.subscribe(function(value) {
+        console.log("warming drawer state changed:", value);
+    });
+    
+    range.warmingDrawerState.write(2);
 });
 ```
 
-### *range.upperOven.cookMode*
+#### *range.upperOven.cookMode*
 The upper oven has a cook mode object.
 There are ten fields in this object, some of which are optional when writing:
 - mode (the cook mode, see [cook mode](#cook-mode) below)
@@ -318,202 +276,202 @@ There are ten fields in this object, some of which are optional when writing:
 - twoTempMinutes (the minute part of the two temp time, default: 0)
 
 ``` javascript
-app.bind(adapter, function (bus) {
-    bus.on("range", function (range) {
-        range.upperOven.cookMode.read(function (value) {
-            console.log("read:", value);
-        });
-        
-        range.upperOven.cookMode.subscribe(function (value) {
-            console.log("subscribe:", value);
-        });
-        
-        range.upperOven.cookMode.write({
-            mode: 18,
-            cookTemperature: 350,
-            cookHours: 1,
-            cookMinutes: 0
-        });
+var greenBean = require("green-bean");
+
+greenBean.connect("range", function(range) {
+    range.upperOven.cookMode.read(function(value) {
+        console.log("upper oven cook mode is:", value);
+    });
+    
+    range.upperOven.cookMode.subscribe(function(value) {
+        console.log("upper oven cook mode changed:", value);
+    });
+    
+    range.upperOven.cookMode.write({
+        mode: 18,
+        cookTemperature: 350,
+        cookHours: 1,
+        cookMinutes: 0
     });
 });
 ```
 
-### *range.upperOven.currentState*
+#### *range.upperOven.currentState*
 The current upper oven state is a read-only integer value of the [oven state](#oven-state) enumeration.
 
 ``` javascript
-app.bind(adapter, function (bus) {
-    bus.on("range", function (range) {
-        range.upperOven.currentState.read(function (value) {
-            console.log("read:", value);
-        });
-        
-        range.upperOven.currentState.subscribe(function (value) {
-            console.log("subscribe:", value);
-        });
+var greenBean = require("green-bean");
+
+greenBean.connect("range", function(range) {
+    range.upperOven.currentState.read(function(value) {
+        console.log("upper oven current state is:", value);
+    });
+    
+    range.upperOven.currentState.subscribe(function(value) {
+        console.log("upper oven current state changed:", value);
     });
 });
 ```
 
-### *range.upperOven.delayTimeRemaining*
+#### *range.upperOven.delayTimeRemaining*
 The upper oven delay time remaining is a read-only integer representing the amount of delay time remaining (in minutes).
 
 ``` javascript
-app.bind(adapter, function (bus) {
-    bus.on("range", function (range) {
-        range.upperOven.delayTimeRemaining.read(function (value) {
-            console.log("read:", value);
-        });
-        
-        range.upperOven.delayTimeRemaining.subscribe(function (value) {
-            console.log("subscribe:", value);
-        });
+var greenBean = require("green-bean");
+
+greenBean.connect("range", function(range) {
+    range.upperOven.delayTimeRemaining.read(function(value) {
+        console.log("upper oven delay time remaining is:", value);
+    });
+    
+    range.upperOven.delayTimeRemaining.subscribe(function(value) {
+        console.log("upper oven delay time remaining changed:", value);
     });
 });
 ```
 
-### *range.upperOven.probeDisplayTemperature*
-The upper oven probe display temperature is a read-only integer representing the probe temperature being displayed (in degrees F).
+#### *range.upperOven.probeDisplayTemperature*
+The upper oven probe display temperature is a read-only integer representing the probe temperature being displayed (in degrees Fahrenheit).
 
 ``` javascript
-app.bind(adapter, function (bus) {
-    bus.on("range", function (range) {
-        range.upperOven.probeDisplayTemperature.read(function (value) {
-            console.log("read:", value);
-        });
-        
-        range.upperOven.probeDisplayTemperature.subscribe(function (value) {
-            console.log("subscribe:", value);
-        });
+var greenBean = require("green-bean");
+
+greenBean.connect("range", function(range) {
+    range.upperOven.probeDisplayTemperature.read(function(value) {
+        console.log("upper oven probe display temperature is:", value);
+    });
+    
+    range.upperOven.probeDisplayTemperature.subscribe(function(value) {
+        console.log("upper oven probe display temperature changed:", value);
     });
 });
 ```
 
-### *range.upperOven.cookTimeRemaining*
+#### *range.upperOven.cookTimeRemaining*
 The upper oven cook time remaining is a read-only integer representing the amount of cook time remaining (in minutes).
 
 ``` javascript
-app.bind(adapter, function (bus) {
-    bus.on("range", function (range) {
-        range.upperOven.cookTimeRemaining.read(function (value) {
-            console.log("read:", value);
-        });
-        
-        range.upperOven.cookTimeRemaining.subscribe(function (value) {
-            console.log("subscribe:", value);
-        });
+var greenBean = require("green-bean");
+
+greenBean.connect("range", function(range) {
+    range.upperOven.cookTimeRemaining.read(function(value) {
+        console.log("upper oven cook time remaining is:", value);
+    });
+    
+    range.upperOven.cookTimeRemaining.subscribe(function(value) {
+        console.log("upper oven cook time remaining changed:", value);
     });
 });
 ```
 
-### *range.upperOven.displayTimer*
+#### *range.upperOven.displayTimer*
 The upper oven display timer is an integer representing the initial setting of the display timer (in minutes).
 
 ``` javascript
-app.bind(adapter, function (bus) {
-    bus.on("range", function (range) {
-        range.upperOven.displayTimer.read(function (value) {
-            console.log("read:", value);
-        });
-        
-        range.upperOven.displayTimer.subscribe(function (value) {
-            console.log("subscribe:", value);
-        });
-        
-        range.upperOven.displayTimer.write(60);
+var greenBean = require("green-bean");
+
+greenBean.connect("range", function(range) {
+    range.upperOven.displayTimer.read(function(value) {
+        console.log("upper oven display timer is:", value);
     });
+    
+    range.upperOven.displayTimer.subscribe(function(value) {
+        console.log("upper oven display timer changed:", value);
+    });
+    
+    range.upperOven.displayTimer.write(60);
 });
 ```
 
-### *range.upperOven.userTemperatureOffset*
-The upper oven user temperature offset is an integer representing the temperature offset from the actual temperature for the user (in degrees F).
+#### *range.upperOven.userTemperatureOffset*
+The upper oven user temperature offset is an integer representing the temperature offset from the actual temperature for the user (in degrees Fahrenheit).
 
 ``` javascript
-app.bind(adapter, function (bus) {
-    bus.on("range", function (range) {
-        range.upperOven.userTemperatureOffset.read(function (value) {
-            console.log("read:", value);
-        });
-        
-        range.upperOven.userTemperatureOffset.subscribe(function (value) {
-            console.log("subscribe:", value);
-        });
-        
-        range.upperOven.userTemperatureOffset.write(50);
+var greenBean = require("green-bean");
+
+greenBean.connect("range", function(range) {
+    range.upperOven.userTemperatureOffset.read(function(value) {
+        console.log("upper oven user temperature offset is:", value);
     });
+    
+    range.upperOven.userTemperatureOffset.subscribe(function(value) {
+        console.log("upper oven user temperature offset changed:", value);
+    });
+    
+    range.upperOven.userTemperatureOffset.write(50);
 });
 ```
 
-### *range.upperOven.probePresent*
+#### *range.upperOven.probePresent*
 The upper oven probe presence is a read-only integer value of the [probe presence](#probe-presence) enumeration.
 
 ``` javascript
-app.bind(adapter, function (bus) {
-    bus.on("range", function (range) {
-        range.upperOven.probePresent.read(function (value) {
-            console.log("read:", value);
-        });
-        
-        range.upperOven.probePresent.subscribe(function (value) {
-            console.log("subscribe:", value);
-        });
+var greenBean = require("green-bean");
+
+greenBean.connect("range", function(range) {
+    range.upperOven.probePresent.read(function(value) {
+        console.log("upper oven probe presence is:", value);
+    });
+    
+    range.upperOven.probePresent.subscribe(function(value) {
+        console.log("upper oven probe presence changed:", value);
     });
 });
 ```
 
-### *range.upperOven.elapsedCookTime*
+#### *range.upperOven.elapsedCookTime*
 The upper oven elapsed cook time is a read-only integer representing the amount of cook time elapsed (in minutes).
 
 ``` javascript
-app.bind(adapter, function (bus) {
-    bus.on("range", function (range) {
-        range.upperOven.elapsedCookTime.read(function (value) {
-            console.log("read:", value);
-        });
-        
-        range.upperOven.elapsedCookTime.subscribe(function (value) {
-            console.log("subscribe:", value);
-        });
+var greenBean = require("green-bean");
+
+greenBean.connect("range", function(range) {
+    range.upperOven.elapsedCookTime.read(function(value) {
+        console.log("upper oven elapsed cook time is:", value);
+    });
+    
+    range.upperOven.elapsedCookTime.subscribe(function(value) {
+        console.log("upper oven elapsed cook time changed:", value);
     });
 });
 ```
 
-### *range.upperOven.displayTemperature*
-The upper oven display temperature is a read-only integer representing the oven temperature being displayed (in degrees F).
+#### *range.upperOven.displayTemperature*
+The upper oven display temperature is a read-only integer representing the oven temperature being displayed (in degrees Fahrenheit).
 
 ``` javascript
-app.bind(adapter, function (bus) {
-    bus.on("range", function (range) {
-        range.upperOven.displayTemperature.read(function (value) {
-            console.log("read:", value);
-        });
-        
-        range.upperOven.displayTemperature.subscribe(function (value) {
-            console.log("subscribe:", value);
-        });
+var greenBean = require("green-bean");
+
+greenBean.connect("range", function(range) {
+    range.upperOven.displayTemperature.read(function(value) {
+        console.log("upper oven display temperature is:", value);
+    });
+    
+    range.upperOven.displayTemperature.subscribe(function(value) {
+        console.log("upper oven display temperature changed:", value);
     });
 });
 ```
 
-### *range.upperOven.remoteEnable*
+#### *range.upperOven.remoteEnable*
 The upper oven remote enable is a read-only integer value of the [enabled state](#enabled-state) enumeration.
 Note: in order to write a cook mode, remote control must be enabled for the oven.
 
 ``` javascript
-app.bind(adapter, function (bus) {
-    bus.on("range", function (range) {
-        range.upperOven.remoteEnable.read(function (value) {
-            console.log("read:", value);
-        });
-        
-        range.upperOven.remoteEnable.subscribe(function (value) {
-            console.log("subscribe:", value);
-        });
+var greenBean = require("green-bean");
+
+greenBean.connect("range", function(range) {
+    range.upperOven.remoteEnable.read(function(value) {
+        console.log("upper oven remote enable is:", value);
+    });
+    
+    range.upperOven.remoteEnable.subscribe(function(value) {
+        console.log("upper oven remote enabled changed:", value);
     });
 });
 ```
 
-### *range.lowerOven.cookMode*
+#### *range.lowerOven.cookMode*
 The lower oven has a cook mode object.
 There are ten fields in this object, some of which are optional when writing:
 - mode (the cook mode, see [cook mode](#cook-mode) below)
@@ -528,218 +486,216 @@ There are ten fields in this object, some of which are optional when writing:
 - twoTempMinutes (the minute part of the two temp time, default: 0)
 
 ``` javascript
-app.bind(adapter, function (bus) {
-    bus.on("range", function (range) {
-        range.lowerOven.cookMode.read(function (value) {
-            console.log("read:", value);
-        });
-        
-        range.lowerOven.cookMode.subscribe(function (value) {
-            console.log("subscribe:", value);
-        });
-        
-        range.lowerOven.cookMode.write({
-            mode: 18,
-            cookTemperature: 350,
-            cookHours: 1,
-            cookMinutes: 0
-        });
+var greenBean = require("green-bean");
+
+greenBean.connect("range", function(range) {
+    range.lowerOven.cookMode.read(function(value) {
+        console.log("lower oven cook mode is:", value);
+    });
+    
+    range.lowerOven.cookMode.subscribe(function(value) {
+        console.log("lower oven cook mode changed:", value);
+    });
+    
+    range.lowerOven.cookMode.write({
+        mode: 18,
+        cookTemperature: 350,
+        cookHours: 1,
+        cookMinutes: 0
     });
 });
 ```
 
-### *range.lowerOven.currentState*
+#### *range.lowerOven.currentState*
 The current lower oven state is a read-only integer value of the [oven state](#oven-state) enumeration.
 
 ``` javascript
-app.bind(adapter, function (bus) {
-    bus.on("range", function (range) {
-        range.lowerOven.currentState.read(function (value) {
-            console.log("read:", value);
-        });
-        
-        range.lowerOven.currentState.subscribe(function (value) {
-            console.log("subscribe:", value);
-        });
+var greenBean = require("green-bean");
+
+greenBean.connect("range", function(range) {
+    range.lowerOven.currentState.read(function(value) {
+        console.log("lower oven current state is:", value);
+    });
+    
+    range.lowerOven.currentState.subscribe(function(value) {
+        console.log("lower oven current state changed:", value);
     });
 });
 ```
 
-### *range.lowerOven.delayTimeRemaining*
+#### *range.lowerOven.delayTimeRemaining*
 The lower oven delay time remaining is a read-only integer representing the amount of delay time remaining (in minutes).
 
 ``` javascript
-app.bind(adapter, function (bus) {
-    bus.on("range", function (range) {
-        range.lowerOven.delayTimeRemaining.read(function (value) {
-            console.log("read:", value);
-        });
-        
-        range.lowerOven.delayTimeRemaining.subscribe(function (value) {
-            console.log("subscribe:", value);
-        });
+var greenBean = require("green-bean");
+
+greenBean.connect("range", function(range) {
+    range.lowerOven.delayTimeRemaining.read(function(value) {
+        console.log("lower oven delay time remaining is:", value);
+    });
+    
+    range.lowerOven.delayTimeRemaining.subscribe(function(value) {
+        console.log("lower oven delay time remaining changed:", value);
     });
 });
 ```
 
-### *range.lowerOven.probeDisplayTemperature*
-The lower oven probe display temperature is a read-only integer representing the probe temperature being displayed (in degrees F).
+#### *range.lowerOven.probeDisplayTemperature*
+The lower oven probe display temperature is a read-only integer representing the probe temperature being displayed (in degrees Fahrenheit).
 
 ``` javascript
-app.bind(adapter, function (bus) {
-    bus.on("range", function (range) {
-        range.lowerOven.probeDisplayTemperature.read(function (value) {
-            console.log("read:", value);
-        });
-        
-        range.lowerOven.probeDisplayTemperature.subscribe(function (value) {
-            console.log("subscribe:", value);
-        });
+var greenBean = require("green-bean");
+
+greenBean.connect("range", function(range) {
+    range.lowerOven.probeDisplayTemperature.read(function(value) {
+        console.log("lower oven probe display temperature is:", value);
+    });
+    
+    range.lowerOven.probeDisplayTemperature.subscribe(function(value) {
+        console.log("lower oven probe display temperature changed:", value);
     });
 });
 ```
 
-### *range.lowerOven.cookTimeRemaining*
+#### *range.lowerOven.cookTimeRemaining*
 The lower oven cook time remaining is a read-only integer representing the amount of cook time remaining (in minutes).
 
 ``` javascript
-app.bind(adapter, function (bus) {
-    bus.on("range", function (range) {
-        range.lowerOven.cookTimeRemaining.read(function (value) {
-            console.log("read:", value);
-        });
-        
-        range.lowerOven.cookTimeRemaining.subscribe(function (value) {
-            console.log("subscribe:", value);
-        });
+var greenBean = require("green-bean");
+
+greenBean.connect("range", function(range) {
+    range.lowerOven.cookTimeRemaining.read(function(value) {
+        console.log("lower oven cook time remaining is:", value);
+    });
+    
+    range.lowerOven.cookTimeRemaining.subscribe(function(value) {
+        console.log("lower oven cook time remaining changed:", value);
     });
 });
 ```
 
-### *range.lowerOven.displayTimer*
+#### *range.lowerOven.displayTimer*
 The lower oven display timer is an integer representing the initial setting of the display timer (in minutes).
 
 ``` javascript
-app.bind(adapter, function (bus) {
-    bus.on("range", function (range) {
-        range.lowerOven.displayTimer.read(function (value) {
-            console.log("read:", value);
-        });
-        
-        range.lowerOven.displayTimer.subscribe(function (value) {
-            console.log("subscribe:", value);
-        });
-        
-        range.lowerOven.displayTimer.write(60);
+var greenBean = require("green-bean");
+
+greenBean.connect("range", function(range) {
+    range.lowerOven.displayTimer.read(function(value) {
+        console.log("lower oven display timer is:", value);
     });
+    
+    range.lowerOven.displayTimer.subscribe(function(value) {
+        console.log("lower oven display timer changed:", value);
+    });
+    
+    range.lowerOven.displayTimer.write(60);
 });
 ```
 
-### *range.lowerOven.userTemperatureOffset*
-The lower oven user temperature offset is an integer representing the temperature offset from the actual temperature for the user (in degrees F).
+#### *range.lowerOven.userTemperatureOffset*
+The lower oven user temperature offset is an integer representing the temperature offset from the actual temperature for the user (in degrees Fahrenheit).
 
 ``` javascript
-app.bind(adapter, function (bus) {
-    bus.on("range", function (range) {
-        range.lowerOven.userTemperatureOffset.read(function (value) {
-            console.log("read:", value);
-        });
-        
-        range.lowerOven.userTemperatureOffset.subscribe(function (value) {
-            console.log("subscribe:", value);
-        });
-        
-        range.lowerOven.userTemperatureOffset.write(50);
+var greenBean = require("green-bean");
+
+greenBean.connect("range", function(range) {
+    range.lowerOven.userTemperatureOffset.read(function(value) {
+        console.log("lower oven user temperature offset is:", value);
     });
+    
+    range.lowerOven.userTemperatureOffset.subscribe(function(value) {
+        console.log("lower oven user temperature offset changed:", value);
+    });
+    
+    range.lowerOven.userTemperatureOffset.write(50);
 });
 ```
 
-### *range.lowerOven.probePresent*
+#### *range.lowerOven.probePresent*
 The lower oven probe presence is a read-only integer value of the [probe presence](#probe-presence) enumeration.
 
 ``` javascript
-app.bind(adapter, function (bus) {
-    bus.on("range", function (range) {
-        range.lowerOven.probePresent.read(function (value) {
-            console.log("read:", value);
-        });
-        
-        range.lowerOven.probePresent.subscribe(function (value) {
-            console.log("subscribe:", value);
-        });
+var greenBean = require("green-bean");
+
+greenBean.connect("range", function(range) {
+    range.lowerOven.probePresent.read(function(value) {
+        console.log("lower oven probe presence is:", value);
+    });
+    
+    range.lowerOven.probePresent.subscribe(function(value) {
+        console.log("lower oven probe presence changed:", value);
     });
 });
 ```
 
-### *range.lowerOven.elapsedCookTime*
+#### *range.lowerOven.elapsedCookTime*
 The lower oven elapsed cook time is a read-only integer representing the amount of cook time elapsed (in minutes).
 
 ``` javascript
-app.bind(adapter, function (bus) {
-    bus.on("range", function (range) {
-        range.lowerOven.elapsedCookTime.read(function (value) {
-            console.log("read:", value);
-        });
-        
-        range.lowerOven.elapsedCookTime.subscribe(function (value) {
-            console.log("subscribe:", value);
-        });
+var greenBean = require("green-bean");
+
+greenBean.connect("range", function(range) {
+    range.lowerOven.elapsedCookTime.read(function(value) {
+        console.log("lower oven elapsed cook time is:", value);
+    });
+    
+    range.lowerOven.elapsedCookTime.subscribe(function(value) {
+        console.log("lower oven elapsed cook time changed:", value);
     });
 });
 ```
 
-### *range.lowerOven.displayTemperature*
-The lower oven display temperature is a read-only integer representing the oven temperature being displayed (in degrees F).
+#### *range.lowerOven.displayTemperature*
+The lower oven display temperature is a read-only integer representing the oven temperature being displayed (in degrees Fahrenheit).
 
 ``` javascript
-app.bind(adapter, function (bus) {
-    bus.on("range", function (range) {
-        range.lowerOven.displayTemperature.read(function (value) {
-            console.log("read:", value);
-        });
-        
-        range.lowerOven.displayTemperature.subscribe(function (value) {
-            console.log("subscribe:", value);
-        });
+var greenBean = require("green-bean");
+
+greenBean.connect("range", function(range) {
+    range.lowerOven.displayTemperature.read(function(value) {
+        console.log("lower oven display temperature is:", value);
+    });
+    
+    range.lowerOven.displayTemperature.subscribe(function(value) {
+        console.log("lower oven display temperature changed:", value);
     });
 });
 ```
 
-### *range.lowerOven.remoteEnable*
+#### *range.lowerOven.remoteEnable*
 The lower oven remote enable is a read-only integer value of the [enabled state](#enabled-state) enumeration. *Note that in order to write a cook mode, remote control must be enabled for the oven.*
 
 ``` javascript
-app.bind(adapter, function (bus) {
-    bus.on("range", function (range) {
-        range.lowerOven.remoteEnable.read(function (value) {
-            console.log("read:", value);
-        });
-        
-        range.lowerOven.remoteEnable.subscribe(function (value) {
-            console.log("subscribe:", value);
-        });
+var greenBean = require("green-bean");
+
+greenBean.connect("range", function(range) {
+    range.lowerOven.remoteEnable.read(function(value) {
+        console.log("lower oven remote enable is:", value);
+    });
+    
+    range.lowerOven.remoteEnable.subscribe(function(value) {
+        console.log("lower oven remote enable changed:", value);
     });
 });
 ```
 
-### *range.fctMode*
+#### *range.fctMode*
 The functional control test mode is a write-only integer value of the [FCT mode](#fct-mode) enumeration. *Note that FCT mode times out after 30 seconds. In order to stay in FCT mode, the command must be sent on an interval.*
 
 ``` javascript
-app.bind(adapter, function (bus) {
-    bus.on("range", function (range) {
-        // enter FCT mode
-        range.fctMode.write(1);
-        
-        // stay in FCT mode
-        setInterval(function() {
-            range.fctMode.write(1);
-        }, 15000);
-    });
+var greenBean = require("green-bean");
+
+greenBean.connect("range", function(range) {
+    range.fctMode.write(1); // enter fct mode
+    
+    setInterval(function() {
+        range.fctMode.write(1); // stay in fct mode
+    }, 15000);
 });
 ```
 
-### *range.doorLock*
+#### *range.doorLock*
 The door lock is a write-only object with the following fields:
 - upperOvenDoorLock (the door lock status of the upper oven, see [door lock](#door-lock) below)
 - lowerOvenDoorLock (the door lock status of the lower oven, see [door lock](#door-lock) below)
@@ -747,28 +703,28 @@ The door lock is a write-only object with the following fields:
 *Note that this functionality is only available in FCT mode (see [range.fctMode](#rangefctmode) above).*
 
 ``` javascript
-app.bind(adapter, function (bus) {
-    bus.on("range", function (range) {
-        range.doorLock.write({
-            upperOvenDoorLock: 1,
-            lowerOvenDoorLock: 0
-        });
+var greenBean = require("green-bean");
+
+greenBean.connect("range", function(range) {
+    range.doorLock.write({
+        upperOvenDoorLock: 1,
+        lowerOvenDoorLock: 0
     });
 });
 ```
 
-### *range.resetEEPROM()*
+#### *range.resetEEPROM()*
 This function will reset the EEPROM to the default values. *Note that this functionality is only available in FCT mode (see [range.fctMode](#rangefctmode) above).*
 
 ``` javascript
-app.bind(adapter, function (bus) {
-    bus.on("range", function (range) {
-        range.resetEEPROM();
-    });
+var greenBean = require("green-bean");
+
+greenBean.connect("range", function(range) {
+    range.resetEEPROM();
 });
 ```
 
-### *range.elementStatus*
+#### *range.elementStatus*
 The element status is an object with the following fields:
 - upperOvenElementStatus (the elements of the upper oven, see [element status](#element-status) below)
 - lowerOvenElementStatus (the elements of the lower oven, see [element status](#element-status) below)
@@ -776,25 +732,25 @@ The element status is an object with the following fields:
 *Note that this functionality is only available in FCT mode (see [range.fctMode](#rangefctmode) above).*
 
 ``` javascript
-app.bind(adapter, function (bus) {
-    bus.on("range", function (range) {
-        range.elementStatus.read(function (value) {
-            console.log("read:", value);
-        });
-        
-        range.elementStatus.subscribe(function (value) {
-            console.log("subscribe:", value);
-        });
+var greenBean = require("green-bean");
+
+greenBean.connect("range", function(range) {
+    range.elementStatus.read(function(value) {
+        console.log("element status is:", value);
+    });
     
-        range.elementStatus.write({
-            upperOvenElementStatus: 0,
-            lowerOvenElementStatus: 0
-        });
+    range.elementStatus.subscribe(function(value) {
+        console.log("element status changed:", value);
+    });
+
+    range.elementStatus.write({
+        upperOvenElementStatus: 0,
+        lowerOvenElementStatus: 0
     });
 });
 ```
 
-### *range.convectionFan*
+#### *range.convectionFan*
 The convection fan is an object with the following fields:
 - upperOvenConvectionFanDrivePercentage (the duty cycle for the convection fan of the upper oven)
 - upperOvenConvectionFanRotation (the rotation of the convection fan of the upper oven, see [fan rotation](#fan-rotation) below)
@@ -804,27 +760,27 @@ The convection fan is an object with the following fields:
 *Note that this functionality is only available in FCT mode (see [range.fctMode](#rangefctmode) above).*
 
 ``` javascript
-app.bind(adapter, function (bus) {
-    bus.on("range", function (range) {
-        range.convectionFan.read(function (value) {
-            console.log("read:", value);
-        });
-        
-        range.convectionFan.subscribe(function (value) {
-            console.log("subscribe:", value);
-        });
+var greenBean = require("green-bean");
+
+greenBean.connect("range", function(range) {
+    range.convectionFan.read(function(value) {
+        console.log("convection fan is:", value);
+    });
     
-        range.convectionFan.write({
-            upperOvenConvectionFanDrivePercentage: 75,
-            upperOvenConvectionFanRotation: 1,
-            lowerOvenConvectionFanDrivePercentage: 0,
-            lowerOvenConvectionFanRotation: 0
-        });
+    range.convectionFan.subscribe(function(value) {
+        console.log("convection fan changed:", value);
+    });
+
+    range.convectionFan.write({
+        upperOvenConvectionFanDrivePercentage: 75,
+        upperOvenConvectionFanRotation: 1,
+        lowerOvenConvectionFanDrivePercentage: 0,
+        lowerOvenConvectionFanRotation: 0
     });
 });
 ```
 
-### *range.coolingFan*
+#### *range.coolingFan*
 The cooling fan is an object with the following fields:
 - upperOvenCoolingFan (the fan speed of the upper oven cooling fan, see [fan speed](fan-speed) below)
 - lowerOvenCoolingFan (the fan speed of the lower oven cooling fan, see [fan speed](fan-speed) below)
@@ -832,25 +788,25 @@ The cooling fan is an object with the following fields:
 *Note that this functionality is only available in FCT mode (see [range.fctMode](#rangefctmode) above).*
 
 ``` javascript
-app.bind(adapter, function (bus) {
-    bus.on("range", function (range) {
-        range.coolingFan.read(function (value) {
-            console.log("read:", value);
-        });
-        
-        range.coolingFan.subscribe(function (value) {
-            console.log("subscribe:", value);
-        });
+var greenBean = require("green-bean");
+
+greenBean.connect("range", function(range) {
+    range.coolingFan.read(function(value) {
+        console.log("cooling fan is:", value);
+    });
     
-        range.coolingFan.write({
-            upperOvenCoolingFan: 1,
-            lowerOvenCoolingFan: 0
-        });
+    range.coolingFan.subscribe(function(value) {
+        console.log("cooling fan changed:", value);
+    });
+
+    range.coolingFan.write({
+        upperOvenCoolingFan: 1,
+        lowerOvenCoolingFan: 0
     });
 });
 ```
 
-### *range.coolingFanRevolutionsPerMinute*
+#### *range.coolingFanRevolutionsPerMinute*
 The cooling fan revolutions per minute is a read-only object with the following fields:
 - upperOvenCoolingFanRevolutionsPerMinute (the number of revolutions per minute of the upper oven cooling fan)
 - lowerOvenCoolingFanRevolutionsPerMinute (the number of revolutions per minute of the lower oven cooling fan)
@@ -858,20 +814,20 @@ The cooling fan revolutions per minute is a read-only object with the following 
 *Note that this functionality is only available in FCT mode (see [range.fctMode](#rangefctmode) above).*
 
 ``` javascript
-app.bind(adapter, function (bus) {
-    bus.on("range", function (range) {
-        range.coolingFanRevolutionsPerMinute.read(function (value) {
-            console.log("read:", value);
-        });
-        
-        range.coolingFanRevolutionsPerMinute.subscribe(function (value) {
-            console.log("subscribe:", value);
-        });
+var greenBean = require("green-bean");
+
+greenBean.connect("range", function(range) {
+    range.coolingFanRevolutionsPerMinute.read(function(value) {
+        console.log("cooling fan revolutions per minute is:", value);
+    });
+    
+    range.coolingFanRevolutionsPerMinute.subscribe(function(value) {
+        console.log("cooling fan revolutions per minute changed:", value);
     });
 });
 ```
 
-### *range.mainControlModuleStatus*
+#### *range.mainControlModuleStatus*
 The main control module status is a read-only object with the following fields:
 - upperOvenCookMode (the upper oven cook mode, see [cook mode](#cook-mode) below)
 - upperOvenErrors (the upper oven error bit field)
@@ -881,20 +837,20 @@ The main control module status is a read-only object with the following fields:
 *Note that this functionality is only available in FCT mode (see [range.fctMode](#rangefctmode) above).*
 
 ``` javascript
-app.bind(adapter, function (bus) {
-    bus.on("range", function (range) {
-        range.mainControlModuleStatus.read(function (value) {
-            console.log("read:", value);
-        });
-        
-        range.mainControlModuleStatus.subscribe(function (value) {
-            console.log("subscribe:", value);
-        });
+var greenBean = require("green-bean");
+
+greenBean.connect("range", function(range) {
+    range.mainControlModuleStatus.read(function(value) {
+        console.log("main control module status is:", value);
+    });
+    
+    range.mainControlModuleStatus.subscribe(function(value) {
+        console.log("main control module status changed:", value);
     });
 });
 ```
 
-### *range.analogInputs*
+#### *range.analogInputs*
 The analog inputs are a read-only object with the following fields:
 - upperOvenRtdFine (the analog temperature reading of the upper oven fine resistive thermal device)
 - upperOvenRtd (the analog temperature reading of the upper oven resistive thermal device)
@@ -906,20 +862,20 @@ The analog inputs are a read-only object with the following fields:
 *Note that this functionality is only available in FCT mode (see [range.fctMode](#rangefctmode) above).*
 
 ``` javascript
-app.bind(adapter, function (bus) {
-    bus.on("range", function (range) {
-        range.analogInputs.read(function (value) {
-            console.log("read:", value);
-        });
-        
-        range.analogInputs.subscribe(function (value) {
-            console.log("subscribe:", value);
-        });
+var greenBean = require("green-bean");
+
+greenBean.connect("range", function(range) {
+    range.analogInputs.read(function(value) {
+        console.log("analog input are:", value);
+    });
+    
+    range.analogInputs.subscribe(function(value) {
+        console.log("analog inputs changed:", value);
     });
 });
 ```
 
-### *range.inputStatus*
+#### *range.inputStatus*
 The input status is a read-only object with the following fields:
 - upperOvenInputStatus (the upper oven input status, see [input status](#input-status) bit field)
 - lowerOvenInputStatus (the lower oven input status, see [input status](#input-status) bit field)
@@ -927,20 +883,20 @@ The input status is a read-only object with the following fields:
 *Note that this functionality is only available in FCT mode (see [range.fctMode](#rangefctmode) above).*
 
 ``` javascript
-app.bind(adapter, function (bus) {
-    bus.on("range", function (range) {
-        range.inputStatus.read(function (value) {
-            console.log("read:", value);
-        });
-        
-        range.inputStatus.subscribe(function (value) {
-            console.log("subscribe:", value);
-        });
+var greenBean = require("green-bean");
+
+greenBean.connect("range", function(range) {
+    range.inputStatus.read(function(value) {
+        console.log("input status is:", value);
+    });
+    
+    range.inputStatus.subscribe(function(value) {
+        console.log("input status changed:", value);
     });
 });
 ```
 
-### *range.keysCurrentlyPressed*
+#### *range.keysCurrentlyPressed*
 The keys currently pressed are a read-only object with the following fields:
 - keyStatus (the key status, see [key status](#key-status))
 - keyBitmap (an array of bytes representing a bitmap of the keys that are currently pressed)
@@ -948,20 +904,20 @@ The keys currently pressed are a read-only object with the following fields:
 *Note that this functionality is only available in FCT mode (see [range.fctMode](#rangefctmode) above).*
 
 ``` javascript
-app.bind(adapter, function (bus) {
-    bus.on("range", function (range) {
-        range.keysCurrentlyPressed.read(function (value) {
-            console.log("read:", value);
-        });
-        
-        range.keysCurrentlyPressed.subscribe(function (value) {
-            console.log("subscribe:", value);
-        });
+var greenBean = require("green-bean");
+
+greenBean.connect("range", function(range) {
+    range.keysCurrentlyPressed.read(function(value) {
+        console.log("keys currently pressed are:", value);
+    });
+    
+    range.keysCurrentlyPressed.subscribe(function(value) {
+        console.log("keys currently pressed changed:", value);
     });
 });
 ```
 
-### *range.latchedKeyPresses*
+#### *range.latchedKeyPresses*
 The latched key presses are a read-only object with the following fields:
 - keyStatus (the key status, see [key status](#key-status))
 - keyBitmap (an array of bytes representing a bitmap of the keys that are currently pressed)
@@ -969,31 +925,31 @@ The latched key presses are a read-only object with the following fields:
 *Note that this functionality is only available in FCT mode (see [range.fctMode](#rangefctmode) above).*
 
 ``` javascript
-app.bind(adapter, function (bus) {
-    bus.on("range", function (range) {
-        range.latchedKeyPresses.read(function (value) {
-            console.log("read:", value);
-        });
-        
-        range.latchedKeyPresses.subscribe(function (value) {
-            console.log("subscribe:", value);
-        });
+var greenBean = require("green-bean");
+
+greenBean.connect("range", function(range) {
+    range.latchedKeyPresses.read(function(value) {
+        console.log("latched key presses are:", value);
+    });
+    
+    range.latchedKeyPresses.subscribe(function(value) {
+        console.log("latched key presses changed:", value);
     });
 });
 ```
 
-### *range.clearLatchedKeyPresses()*
+#### *range.clearLatchedKeyPresses()*
 This functions clears the latched key presses reported in [range.latchedKeyPresses](#rangelatchedkeypresses). *Note that this functionality is only available in FCT mode (see [range.fctMode](#rangefctmode) above).*
 
 ``` javascript
-app.bind(adapter, function (bus) {
-    bus.on("range", function (range) {
-        range.clearLatchedKeyPresses();
-    });
+var greenBean = require("green-bean");
+
+greenBean.connect("range", function(range) {
+    range.clearLatchedKeyPresses();
 });
 ```
 
-### *range.glassTouchErrors*
+#### *range.glassTouchErrors*
 The glass touch errors are a read-only object with the following fields:
 - keyStatus (the key status, see [key status](#key-status))
 - keyBitmap (an array of bytes representing a bitmap of the keys that are currently pressed)
@@ -1001,20 +957,20 @@ The glass touch errors are a read-only object with the following fields:
 *Note that this functionality is only available in FCT mode (see [range.fctMode](#rangefctmode) above).*
 
 ``` javascript
-app.bind(adapter, function (bus) {
-    bus.on("range", function (range) {
-        range.glassTouchErrors.read(function (value) {
-            console.log("read:", value);
-        });
-        
-        range.glassTouchErrors.subscribe(function (value) {
-            console.log("subscribe:", value);
-        });
+var greenBean = require("green-bean");
+
+greenBean.connect("range", function(range) {
+    range.glassTouchErrors.read(function(value) {
+        console.log("glass touch errors are:", value);
+    });
+    
+    range.glassTouchErrors.subscribe(function(value) {
+        console.log("glass touch errors changed:", value);
     });
 });
 ```
 
-### *range.leds*
+#### *range.leds*
 The light emitting diodes are a write-only object with the following fields:
 - upperOvenLedStatus (an array of bytes representing the upper oven light emitting diodes)
 - lowerOvenLedStatus (an array of bytes representing the lower oven light emitting diodes)
@@ -1022,30 +978,30 @@ The light emitting diodes are a write-only object with the following fields:
 *Note that this functionality is only available in FCT mode (see [range.fctMode](#rangefctmode) above).*
 
 ``` javascript
-app.bind(adapter, function (bus) {
-    bus.on("range", function (range) {
-        range.leds.write({
-            upperOvenLedStatus: [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ],
-            lowerOvenLedStatus: [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ]
-        });
+var greenBean = require("green-bean");
+
+greenBean.connect("range", function(range) {
+    range.leds.write({
+        upperOvenLedStatus: [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ],
+        lowerOvenLedStatus: [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ]
     });
 });
 ```
 
-### *range.buzzerTone*
+#### *range.buzzerTone*
 The buzzer tone is a write-only integer value of the [buzzer tone](#buzzer-tone) enumeration. *Note that this functionality is only available in FCT mode (see [range.fctMode](#rangefctmode) above).*
 
 ``` javascript
-app.bind(adapter, function (bus) {
-    bus.on("range", function (range) {
-        range.buzzerTone.write(5);
-    });
+var greenBean = require("green-bean");
+
+greenBean.connect("range", function(range) {
+    range.buzzerTone.write(5);
 });
 ```
 
-## Appendix
+### Appendix
 
-### Enabled state
+#### Enabled state
 The following is a list of the available enabled states and their enumerated value.
 
 | Value   | Name     |
@@ -1053,7 +1009,7 @@ The following is a list of the available enabled states and their enumerated val
 | 0       | Disabled |
 | 1       | Enabled  |
 
-### Probe presence
+#### Probe presence
 The following is a list of the available probe presence states and their enumerated value.
 
 | Value   | Name        |
@@ -1061,7 +1017,7 @@ The following is a list of the available probe presence states and their enumera
 | 0       | Not present |
 | 1       | Present     |
 
-### End tone
+#### End tone
 The following is a list of the available end tones and their enumerated value.
 
 | Value   | Name            |
@@ -1069,7 +1025,7 @@ The following is a list of the available end tones and their enumerated value.
 | 0       | Beep            |
 | 1       | Continuous tone |
 
-### Warming drawer state
+#### Warming drawer state
 The following is a list of the available warming drawer states and their enumerated value.
 
 | Value   | Name   |
@@ -1079,7 +1035,7 @@ The following is a list of the available warming drawer states and their enumera
 | 2       | Medium |
 | 3       | High   |
 
-### Oven configuration
+#### Oven configuration
 The following is a diagram of the value for each bit in the oven configuration.
 If the bit is set (value is 1) then that option is present.
 If the bit is cleared (value is 0) then that option is not present.
@@ -1093,7 +1049,7 @@ If the bit is cleared (value is 0) then that option is not present.
 | 4       | Lower oven kitchen timer |
 | 5+      | Reserved                 |
 
-### Cook mode
+#### Cook mode
 The following is a list of the available cook modes and their enumerated value.
 Note that some of these values are not allowed to be set remotely, even when remote enabled.
 Some of these values are deprecated, and are marked with a ~~strikeout~~.
@@ -1156,7 +1112,7 @@ Some of these values are deprecated, and are marked with a ~~strikeout~~.
 | 53      | Dual Broil Low No Option                            |
 | 54      | Dual Broil High No Option                           |
 
-### Oven state
+#### Oven state
 The following is a list of the available oven states and their enumerated value.
 Note that some of these values are not allowed to be set remotely, even when remote enabled.
 Some of these values are deprecated, and are marked with a ~~strikeout~~.
@@ -1198,7 +1154,7 @@ Some of these values are deprecated, and are marked with a ~~strikeout~~.
 | 32      | ~~Warming Drawer Medium~~         |
 | 33      | ~~Warming Drawer High~~           |
 
-### FCT mode
+#### FCT mode
 The following is a list of the available functional control test modes and their enumerated value.
 
 | Value   | Name            |
@@ -1207,7 +1163,7 @@ The following is a list of the available functional control test modes and their
 | 0x01    | Enter FCT mode  |
 | 0xff    | Query FCT mode  |
 
-### Door lock
+#### Door lock
 The following is a list of the available door lock states and their enumerated value.
 
 | Value   | Name     |
@@ -1215,7 +1171,7 @@ The following is a list of the available door lock states and their enumerated v
 | 0       | Unlock   |
 | 1       | Lock     |
 
-### Element status
+#### Element status
 The following is a diagram of the value for each bit in the elements.
 If the bit is set (value is 1) then that element is turned on.
 If the bit is cleared (value is 0) then that element is turned off.
@@ -1230,7 +1186,7 @@ If the bit is cleared (value is 0) then that element is turned off.
 | 5       | Secondary convection     |
 | 6+      | Reserved                 |
 
-### Fan rotation
+#### Fan rotation
 The following is a list of the available fan rotations and their enumerated value.
 
 | Value   | Name                |
@@ -1238,7 +1194,7 @@ The following is a list of the available fan rotations and their enumerated valu
 | 0       | Counter clockwise   |
 | 1       | Clockwise           |
 
-### Fan speed
+#### Fan speed
 The following is a list of the available fan speeds and their enumerated value.
 
 | Value   | Name                                 |
@@ -1247,7 +1203,7 @@ The following is a list of the available fan speeds and their enumerated value.
 | 1       | Low speed                            |
 | 2       | High speed (not available for TO12)  |
 
-### Input status
+#### Input status
 The following is a diagram of the value for each bit in the input status.
 If the bit is set (value is 1) then that element is turned on.
 If the bit is cleared (value is 0) then that element is turned off.
@@ -1267,7 +1223,7 @@ Some of these values are deprecated, and are marked with a ~~strikeout~~.
 | 14      | Convection fan rotation (counter clockwise = 0, clockwise = 1)           |
 | 15      | Probe status (not present = 0, present = 1)                              |
 
-### Key status
+#### Key status
 The following is a list of the available warming drawer states and their enumerated value.
 
 | Value   | Name                  |
@@ -1277,7 +1233,7 @@ The following is a list of the available warming drawer states and their enumera
 | 2       | Reset latched keys    |
 | 3       | Glass touch errors    |
 
-### Buzzer tone
+#### Buzzer tone
 The following is a list of the available buzzer tones and their enumerated value.
 
 | Value   | Name              |
