@@ -10,7 +10,7 @@ The interface between the green bean and the range can take place while the rang
 
 
 **Consumer mode** allows developers to access the high-level algorithms of an appliance, such as initiating a bake cycle at a specified temperature.
-In consumer mode a user connected is unable change the low level functions that govern how the cook cycle runs.
+In consumer mode a user is unable change the low level functions that govern how the cook cycle runs.
 
 
 **Native mode** allows a developer to create the low-level algorithms of an appliance, such as direct control of motors, fans, actuators, heaters, and other controlled devices.
