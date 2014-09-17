@@ -3,6 +3,31 @@
 
 This node.js package provides functionality for communicating with a range via the [General Electric Appliance Software Development Kit](https://github.com/GEMakers/gea-sdk). In order to use this software, you must first connect your range to your computer using the [Green Bean](https://github.com/GEMakers/green-bean).
 
+&#x26a0; CAUTION: To prevent a risk of personal injury or property damage use this device and the API to modify the functionality of your GE Appliances only as directed in the [Guide to Safe and Reliable Operation](#guide-to-safe-and-reliable-operation).
+
+## Guide to Safe and Reliable Operation
+The interface between the green bean and the range can take place while the range is in either a consumer or a native mode.
+
+
+**Consumer mode** allows developers to access the high-level algorithms of an appliance, such as initiating a bake cycle at a specified temperature.
+In consumer mode a user connected is unable change the low level functions that govern how the cook cycle runs.
+
+
+**Native mode** allows a developer to create the low-level algorithms of an appliance, such as direct control of motors, fans, actuators, heaters, and other controlled devices.
+While in native mode, high-level algorithms, such as a bake cycle, are not operational.
+Native mode allows a developer to, for example, create a new bake cycle by controlling the loads in a desired manner.
+While operating in native mode, the developer must adhere to the following rules:
+
+1. The oven cavity temperature should not exceed 550 degrees Fahrenheit while the door is unlocked. If you intend to run an operation that will exceed this cavity temperature, lock the door before starting the cook mode (energizing any elements).
+1. The cooling fan must be on during all cook modes (any heating element energized) and remain on as long as the temperature in either cavity is greater than 175 degrees Fahrenheit.
+1. If operation on any individual oven cavity is to exceed 550 degrees Fahrenheit then the other oven should not be operated during this entire cooking cycle. Concurrent operation of oven cavities at high temperatures (where door lock is required) can overheat components and/or result in high surface temperatures that can injure on contact.
+1. Do not allow operation of the cooktop if any operating above 550 degrees Fahrenheit is intended.
+1. The door lock may be incapable of changing state at elevated temperatures. Once a door is locked, it should remain locked until the cavity temperatures drop below 400 degrees Fahrenheit.
+1. For models with controls directly above the door, do not allow cook modes to continue with the door open for more than 1 minute, as it can result in high component temperatures, leading to control damage.
+1. A heating element that is on must have its state periodically updated at least every 5 minutes (2.5 minutes is recommended).
+1. Excessive relay cycling can shorten the life of the relays.
+1. To maintain native mode operation, the native mode command must be sent at least once every 5 minutes (2.5 minute periodic rate is recommended).
+
 ## Overview
 
 1. [Using the Software](#using-the-software)
@@ -84,11 +109,11 @@ greenBean.connect("range", function(range) {
     range.twelveHourShutoff.read(function(value) {
         console.log("twelve hour shutoff is:", value);
     });
-    
+
     range.twelveHourShutoff.subscribe(function(value) {
         console.log("twelve hour shutoff changed:", value);
     });
-    
+
     range.twelveHourShutoff.write(1);
 });
 ```
@@ -103,11 +128,11 @@ greenBean.connect("range", function(range) {
     range.endTone.read(function(value) {
         console.log("end tone is:", value);
     });
-    
+
     range.endTone.subscribe(function(value) {
         console.log("end tone changed:", value);
     });
-    
+
     range.endTone.write(0);
 });
 ```
@@ -122,11 +147,11 @@ greenBean.connect("range", function(range) {
     range.lightBar.read(function(value) {
         console.log("light bar is:", value);
     });
-    
+
     range.lightBar.subscribe(function(value) {
         console.log("light bar changed:", value);
     });
-    
+
     range.lightBar.write(1);
 });
 ```
@@ -141,11 +166,11 @@ greenBean.connect("range", function(range) {
     range.convectionConversion.read(function(value) {
         console.log("convection conversion is:", value);
     });
-    
+
     range.convectionConversion.subscribe(function(value) {
         console.log("convection conversion changed:", value);
     });
-    
+
     range.convectionConversion.write(1);
 });
 ```
@@ -160,7 +185,7 @@ greenBean.connect("range", function(range) {
     range.elapsedOnTime.read(function(value) {
         console.log("elapsed on time is:", value);
     });
-    
+
     range.elapsedOnTime.subscribe(function(value) {
         console.log("elapsed on time changed:", value);
     });
@@ -180,7 +205,7 @@ greenBean.connect("range", function(range) {
     range.activeFaultCodeStatus.read(function(value) {
         console.log("active fault codes are:", value);
     });
-    
+
     range.activeFaultCodeStatus.subscribe(function(value) {
         console.log("active fault codes changed:", value);
     });
@@ -198,7 +223,7 @@ greenBean.connect("range", function(range) {
     range.keyPressed.read(function(value) {
         console.log("last key pressed is:", value);
     });
-    
+
     range.keyPressed.subscribe(function(value) {
         console.log("last key pressed changed:", value);
     });
@@ -215,7 +240,7 @@ greenBean.connect("range", function(range) {
     range.ovenConfiguration.read(function(value) {
         console.log("oven configuration is:", value);
     });
-    
+
     range.ovenConfiguration.subscribe(function(value) {
         console.log("oven configuration changed:", value);
     });
@@ -235,7 +260,7 @@ greenBean.connect("range", function(range) {
     range.ovenModeMinMaxTemperature.read(function(value) {
         console.log("oven minimum and maximum temperatures are:", value);
     });
-    
+
     range.ovenModeMinMaxTemperature.subscribe(function(value) {
         console.log("oven minimum and maximum temperatures changed:", value);
     });
@@ -252,11 +277,11 @@ greenBean.connect("range", function(range) {
     range.warmingDrawerState.read(function(value) {
         console.log("warming drawer state is:", value);
     });
-    
+
     range.warmingDrawerState.subscribe(function(value) {
         console.log("warming drawer state changed:", value);
     });
-    
+
     range.warmingDrawerState.write(2);
 });
 ```
@@ -282,11 +307,11 @@ greenBean.connect("range", function(range) {
     range.upperOven.cookMode.read(function(value) {
         console.log("upper oven cook mode is:", value);
     });
-    
+
     range.upperOven.cookMode.subscribe(function(value) {
         console.log("upper oven cook mode changed:", value);
     });
-    
+
     range.upperOven.cookMode.write({
         mode: 18,
         cookTemperature: 350,
@@ -306,7 +331,7 @@ greenBean.connect("range", function(range) {
     range.upperOven.currentState.read(function(value) {
         console.log("upper oven current state is:", value);
     });
-    
+
     range.upperOven.currentState.subscribe(function(value) {
         console.log("upper oven current state changed:", value);
     });
@@ -323,7 +348,7 @@ greenBean.connect("range", function(range) {
     range.upperOven.delayTimeRemaining.read(function(value) {
         console.log("upper oven delay time remaining is:", value);
     });
-    
+
     range.upperOven.delayTimeRemaining.subscribe(function(value) {
         console.log("upper oven delay time remaining changed:", value);
     });
@@ -340,7 +365,7 @@ greenBean.connect("range", function(range) {
     range.upperOven.probeDisplayTemperature.read(function(value) {
         console.log("upper oven probe display temperature is:", value);
     });
-    
+
     range.upperOven.probeDisplayTemperature.subscribe(function(value) {
         console.log("upper oven probe display temperature changed:", value);
     });
@@ -357,7 +382,7 @@ greenBean.connect("range", function(range) {
     range.upperOven.cookTimeRemaining.read(function(value) {
         console.log("upper oven cook time remaining is:", value);
     });
-    
+
     range.upperOven.cookTimeRemaining.subscribe(function(value) {
         console.log("upper oven cook time remaining changed:", value);
     });
@@ -374,11 +399,11 @@ greenBean.connect("range", function(range) {
     range.upperOven.displayTimer.read(function(value) {
         console.log("upper oven display timer is:", value);
     });
-    
+
     range.upperOven.displayTimer.subscribe(function(value) {
         console.log("upper oven display timer changed:", value);
     });
-    
+
     range.upperOven.displayTimer.write(60);
 });
 ```
@@ -393,11 +418,11 @@ greenBean.connect("range", function(range) {
     range.upperOven.userTemperatureOffset.read(function(value) {
         console.log("upper oven user temperature offset is:", value);
     });
-    
+
     range.upperOven.userTemperatureOffset.subscribe(function(value) {
         console.log("upper oven user temperature offset changed:", value);
     });
-    
+
     range.upperOven.userTemperatureOffset.write(50);
 });
 ```
@@ -412,7 +437,7 @@ greenBean.connect("range", function(range) {
     range.upperOven.probePresent.read(function(value) {
         console.log("upper oven probe presence is:", value);
     });
-    
+
     range.upperOven.probePresent.subscribe(function(value) {
         console.log("upper oven probe presence changed:", value);
     });
@@ -429,7 +454,7 @@ greenBean.connect("range", function(range) {
     range.upperOven.elapsedCookTime.read(function(value) {
         console.log("upper oven elapsed cook time is:", value);
     });
-    
+
     range.upperOven.elapsedCookTime.subscribe(function(value) {
         console.log("upper oven elapsed cook time changed:", value);
     });
@@ -446,7 +471,7 @@ greenBean.connect("range", function(range) {
     range.upperOven.displayTemperature.read(function(value) {
         console.log("upper oven display temperature is:", value);
     });
-    
+
     range.upperOven.displayTemperature.subscribe(function(value) {
         console.log("upper oven display temperature changed:", value);
     });
@@ -464,7 +489,7 @@ greenBean.connect("range", function(range) {
     range.upperOven.remoteEnable.read(function(value) {
         console.log("upper oven remote enable is:", value);
     });
-    
+
     range.upperOven.remoteEnable.subscribe(function(value) {
         console.log("upper oven remote enabled changed:", value);
     });
@@ -492,11 +517,11 @@ greenBean.connect("range", function(range) {
     range.lowerOven.cookMode.read(function(value) {
         console.log("lower oven cook mode is:", value);
     });
-    
+
     range.lowerOven.cookMode.subscribe(function(value) {
         console.log("lower oven cook mode changed:", value);
     });
-    
+
     range.lowerOven.cookMode.write({
         mode: 18,
         cookTemperature: 350,
@@ -516,7 +541,7 @@ greenBean.connect("range", function(range) {
     range.lowerOven.currentState.read(function(value) {
         console.log("lower oven current state is:", value);
     });
-    
+
     range.lowerOven.currentState.subscribe(function(value) {
         console.log("lower oven current state changed:", value);
     });
@@ -533,7 +558,7 @@ greenBean.connect("range", function(range) {
     range.lowerOven.delayTimeRemaining.read(function(value) {
         console.log("lower oven delay time remaining is:", value);
     });
-    
+
     range.lowerOven.delayTimeRemaining.subscribe(function(value) {
         console.log("lower oven delay time remaining changed:", value);
     });
@@ -550,7 +575,7 @@ greenBean.connect("range", function(range) {
     range.lowerOven.probeDisplayTemperature.read(function(value) {
         console.log("lower oven probe display temperature is:", value);
     });
-    
+
     range.lowerOven.probeDisplayTemperature.subscribe(function(value) {
         console.log("lower oven probe display temperature changed:", value);
     });
@@ -567,7 +592,7 @@ greenBean.connect("range", function(range) {
     range.lowerOven.cookTimeRemaining.read(function(value) {
         console.log("lower oven cook time remaining is:", value);
     });
-    
+
     range.lowerOven.cookTimeRemaining.subscribe(function(value) {
         console.log("lower oven cook time remaining changed:", value);
     });
@@ -584,11 +609,11 @@ greenBean.connect("range", function(range) {
     range.lowerOven.displayTimer.read(function(value) {
         console.log("lower oven display timer is:", value);
     });
-    
+
     range.lowerOven.displayTimer.subscribe(function(value) {
         console.log("lower oven display timer changed:", value);
     });
-    
+
     range.lowerOven.displayTimer.write(60);
 });
 ```
@@ -603,11 +628,11 @@ greenBean.connect("range", function(range) {
     range.lowerOven.userTemperatureOffset.read(function(value) {
         console.log("lower oven user temperature offset is:", value);
     });
-    
+
     range.lowerOven.userTemperatureOffset.subscribe(function(value) {
         console.log("lower oven user temperature offset changed:", value);
     });
-    
+
     range.lowerOven.userTemperatureOffset.write(50);
 });
 ```
@@ -622,7 +647,7 @@ greenBean.connect("range", function(range) {
     range.lowerOven.probePresent.read(function(value) {
         console.log("lower oven probe presence is:", value);
     });
-    
+
     range.lowerOven.probePresent.subscribe(function(value) {
         console.log("lower oven probe presence changed:", value);
     });
@@ -639,7 +664,7 @@ greenBean.connect("range", function(range) {
     range.lowerOven.elapsedCookTime.read(function(value) {
         console.log("lower oven elapsed cook time is:", value);
     });
-    
+
     range.lowerOven.elapsedCookTime.subscribe(function(value) {
         console.log("lower oven elapsed cook time changed:", value);
     });
@@ -656,7 +681,7 @@ greenBean.connect("range", function(range) {
     range.lowerOven.displayTemperature.read(function(value) {
         console.log("lower oven display temperature is:", value);
     });
-    
+
     range.lowerOven.displayTemperature.subscribe(function(value) {
         console.log("lower oven display temperature changed:", value);
     });
@@ -673,7 +698,7 @@ greenBean.connect("range", function(range) {
     range.lowerOven.remoteEnable.read(function(value) {
         console.log("lower oven remote enable is:", value);
     });
-    
+
     range.lowerOven.remoteEnable.subscribe(function(value) {
         console.log("lower oven remote enable changed:", value);
     });
@@ -688,7 +713,7 @@ var greenBean = require("green-bean");
 
 greenBean.connect("range", function(range) {
     range.fctMode.write(1); // enter fct mode
-    
+
     setInterval(function() {
         range.fctMode.write(1); // stay in fct mode
     }, 15000);
@@ -738,7 +763,7 @@ greenBean.connect("range", function(range) {
     range.elementStatus.read(function(value) {
         console.log("element status is:", value);
     });
-    
+
     range.elementStatus.subscribe(function(value) {
         console.log("element status changed:", value);
     });
@@ -766,7 +791,7 @@ greenBean.connect("range", function(range) {
     range.convectionFan.read(function(value) {
         console.log("convection fan is:", value);
     });
-    
+
     range.convectionFan.subscribe(function(value) {
         console.log("convection fan changed:", value);
     });
@@ -794,7 +819,7 @@ greenBean.connect("range", function(range) {
     range.coolingFan.read(function(value) {
         console.log("cooling fan is:", value);
     });
-    
+
     range.coolingFan.subscribe(function(value) {
         console.log("cooling fan changed:", value);
     });
@@ -820,7 +845,7 @@ greenBean.connect("range", function(range) {
     range.coolingFanRevolutionsPerMinute.read(function(value) {
         console.log("cooling fan revolutions per minute is:", value);
     });
-    
+
     range.coolingFanRevolutionsPerMinute.subscribe(function(value) {
         console.log("cooling fan revolutions per minute changed:", value);
     });
@@ -843,7 +868,7 @@ greenBean.connect("range", function(range) {
     range.mainControlModuleStatus.read(function(value) {
         console.log("main control module status is:", value);
     });
-    
+
     range.mainControlModuleStatus.subscribe(function(value) {
         console.log("main control module status changed:", value);
     });
@@ -868,7 +893,7 @@ greenBean.connect("range", function(range) {
     range.analogInputs.read(function(value) {
         console.log("analog input are:", value);
     });
-    
+
     range.analogInputs.subscribe(function(value) {
         console.log("analog inputs changed:", value);
     });
@@ -889,7 +914,7 @@ greenBean.connect("range", function(range) {
     range.inputStatus.read(function(value) {
         console.log("input status is:", value);
     });
-    
+
     range.inputStatus.subscribe(function(value) {
         console.log("input status changed:", value);
     });
@@ -910,7 +935,7 @@ greenBean.connect("range", function(range) {
     range.keysCurrentlyPressed.read(function(value) {
         console.log("keys currently pressed are:", value);
     });
-    
+
     range.keysCurrentlyPressed.subscribe(function(value) {
         console.log("keys currently pressed changed:", value);
     });
@@ -931,7 +956,7 @@ greenBean.connect("range", function(range) {
     range.latchedKeyPresses.read(function(value) {
         console.log("latched key presses are:", value);
     });
-    
+
     range.latchedKeyPresses.subscribe(function(value) {
         console.log("latched key presses changed:", value);
     });
@@ -963,7 +988,7 @@ greenBean.connect("range", function(range) {
     range.glassTouchErrors.read(function(value) {
         console.log("glass touch errors are:", value);
     });
-    
+
     range.glassTouchErrors.subscribe(function(value) {
         console.log("glass touch errors changed:", value);
     });
