@@ -289,7 +289,12 @@ function Range (bus, appliance, base) {
         command: 0xb5,
         format: "UInt8"
     });
-    
+
+    appliance.ovenLight = appliance.command({
+        command: 0x71,
+        format: "UInt8"
+    });
+        
     return appliance;
 }
 
