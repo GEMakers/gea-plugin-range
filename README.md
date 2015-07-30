@@ -79,6 +79,7 @@ While operating in native mode, the developer must adhere to the following rules
     - [range.glassTouchErrors](#rangeglasstoucherrors)
     - [range.leds](#rangeleds)
     - [range.buzzerTone](#rangebuzzertone)
+    - [range.ovenLight](#rangeoventlight)
 1. [Appendix](#appendix)
     - [Enabled state](#enabled-state)
     - [Probe presence](#probe-presence)
@@ -1024,6 +1025,17 @@ greenBean.connect("range", function(range) {
 });
 ```
 
+#### *range.ovenLight*
+The oven light is a write-only integer value of (0 = Off or 1 = On).
+*Note that this functionality is only available in FCT mode (see [range.fctMode](#rangefctmode) above).*
+
+``` javascript
+var greenBean = require("green-bean");
+
+greenBean.connect("range", function(range) {
+    range.ovenLight.write(1);
+});
+```
 ### Appendix
 
 #### Enabled state
